@@ -1,0 +1,175 @@
+{
+  "course_id": 2,
+  "title": "Build AI Agents with LangChain & Python",
+  "category": "ai",
+  "level": "int",
+  "duration": "8 weeks",
+  "outcome": "AI Developer",
+  "overview": "LangChain and Python use karke dynamic autonomous AI agents design, tools integration aur logical reasoning pipelines build karna seekhe.",
+  "objectives": [
+    "Python scripting aur REST API execution logic code base design build karna.",
+    "LangChain Components (Prompts, Memory, Output Parsers, Loaders) master karna.",
+    "Autonomous agents reasoning loops (ReAct pattern) tool connect execute karna.",
+    "RAG systems (Vector stores, embeddings, document loaders) build aur deploy karna."
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "title": "Phase 1: API & Basic Chains (Weeks 1-4)",
+        "desc": "Python basics, REST APIs setup, LangChain schemas, Prompts mapping."
+      },
+      {
+        "title": "Phase 2: RAG & Vector Stores (Weeks 5-6)",
+        "desc": "Embedding vectors creation, Vector stores lookup and document loaders pipeline."
+      },
+      {
+        "title": "Phase 3: Autonomous Agents (Weeks 7-8)",
+        "desc": "Tool use loops, ReAct routing, Capstone agent setup and portfolio build."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "week": 1,
+      "title": "Python & API Basics",
+      "lessons": [
+        {
+          "lesson_id": "w1-l1",
+          "title": "Introduction to Python & Calling LLM APIs programmatically",
+          "content": "Python backend developers ke liye dynamic AI scripts execute karne ka core logic database environment standard represent karta hai. REST APIs parameters connectivity check configurations.\n\n### Core steps:\n1. **Python requests library**: Execute HTTP POST queries directly to endpoints.\n2. **Environment Variables**: Use `.env` file configs to secure private API key credentials.",
+          "code": "import requests\nimport os\napi_key = os.getenv('OPENAI_API_KEY')",
+          "diagram": "App script -> requests call -> API Server (Auth check) -> JSON response lookup",
+          "quiz": [
+            {
+              "question": "API call headers me private authorization key setup configure standard key name:",
+              "options": [
+                "Authorization: Bearer <API_KEY>",
+                "API-Key: Header",
+                "Secret-Token: Parameter",
+                "User-Auth: Key"
+              ],
+              "answer": 0,
+              "explanation": "Standard bearer tokens inside header key is the standard authorization paradigm for HTTP REST APIs."
+            }
+          ],
+          "assignment": {
+            "title": "Build a python weather API lookups script logic",
+            "prompt": "Create a script that requests current data logs from a public temperature database endpoint."
+          },
+          "downloads": [
+            { "name": "REST API Python reference documentation", "url": "/shared/checklists/api_setup.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "LangChain Fundamentals",
+      "lessons": [
+        {
+          "lesson_id": "w3-l1",
+          "title": "Chains, Prompt Templates and Output Parsers in LangChain",
+          "content": "LangChain modular abstraction framework components build standard layouts dynamic structures definitions mappings schemas.\n\n### Abstraction layers:\n- **PromptTemplate**: Defines instructions variable inputs placeholders dynamically.\n- **OutputParser**: Validates output text blocks map exact JSON schemas constraints.",
+          "code": "from langchain.prompts import PromptTemplate\nprompt = PromptTemplate.from_template(\"Write review: {product}\")",
+          "diagram": "Prompt template input -> LLM execution model -> Output parser -> Validated JSON payload",
+          "quiz": [
+            {
+              "question": "Output parsers help applications parse unstructured text inputs to standard structured formats like:",
+              "options": [
+                "JSON format schemas objects",
+                "Raw binary file structures",
+                "TXT backup logs",
+                "Power query datasets"
+              ],
+              "answer": 0,
+              "explanation": "Parsers validate text patterns and construct direct JSON object schemas."
+            }
+          ],
+          "assignment": {
+            "title": "Create a product review rating parser pipeline",
+            "prompt": "Implement a simple LangChain chain that converts LLM output text strings into rating metrics keys."
+          },
+          "downloads": [
+            { "name": "LangChain Core Cheat sheet layout", "url": "/shared/checklists/lc_cheatsheet.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "title": "Building RAG Pipelines",
+      "lessons": [
+        {
+          "lesson_id": "w5-l1",
+          "title": "Vector Databases, Embeddings, & Retrieval-Augmented Generation",
+          "content": "Retrieval-Augmented Generation (RAG) models access private files database schemas data lookups indexing logic.\n\n### RAG Workflow:\n1. **Document Loader**: Parse PDFs / local files txt chunks.\n2. **Embeddings model**: Convert text arrays into numerical vector nodes.\n3. **Vector Database**: Store high-dimensional vector profiles and search matching records.",
+          "code": "from langchain_community.vectorstores import Chroma\ndb = Chroma.from_documents(docs, embeddings)",
+          "diagram": "Document upload -> Chunk splits -> Embedding models -> Vector store -> Search retrieval context lookup",
+          "quiz": [
+            {
+              "question": "RAG systems query retrieval database search algorithms match items using:",
+              "options": [
+                "Cosine Similarity mathematical metrics",
+                "Regular expression match patterns",
+                "Index column counter checks",
+                "Static filename validations"
+              ],
+              "answer": 0,
+              "explanation": "High-dimensional vector distance calculations (like Cosine Similarity) find semantically similar records."
+            }
+          ],
+          "assignment": {
+            "title": "Build a PDF document QA lookups retriever script",
+            "prompt": "Setup a simple local Chroma DB workspace and query documents search."
+          },
+          "downloads": [
+            { "name": "Chroma Database Local setups SOP", "url": "/shared/checklists/chroma_setup.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 7,
+      "title": "Autonomous AI Agents",
+      "lessons": [
+        {
+          "lesson_id": "w7-l1",
+          "title": "LangChain Agents, Tools, and Reasoning Loops",
+          "content": "Autonomous agents interact dynamically with real environment systems executing tasks scripts APIs operations.\n\n### ReAct Framework:\n- **Thought**: Model logic reasons next steps targets.\n- **Action**: Call tools endpoints script executions.\n- **Observation**: Read output response details.",
+          "code": "from langchain.agents import AgentExecutor, create_react_agent\nagent_executor = AgentExecutor(agent=agent, tools=tools)",
+          "diagram": "User goal prompt -> Thought loop -> Tool call -> Result analysis -> Final Answer resolution",
+          "quiz": [
+            {
+              "question": "AI Agents reasoning loops loop limits settings prevent systems from:",
+              "options": [
+                "Infinite execution loops and database resource exhaustion",
+                "API key overrides",
+                "Data type validation errors",
+                "Authentication parameters failures"
+              ],
+              "answer": 0,
+              "explanation": "Max iteration properties prevent infinite agent call loops."
+            }
+          ],
+          "assignment": {
+            "title": "Deploy an automated research assistant program",
+            "prompt": "Create an agent integrated with web search tool and database lookup modules."
+          },
+          "downloads": [
+            { "name": "AI Agents complete blueprints guide", "url": "/shared/checklists/agent_blueprints.pdf" }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "Enterprise Database Analytics AI Agent Assistant Setup",
+    "description": "Construct a Python / LangChain agent that accepts natural language queries, connects to SQL server data base, runs schemas, builds charts, and emails results."
+  },
+  "interview_questions": [
+    {
+      "question": "What is the difference between Vector DB search and standard SQL text search?",
+      "answer": "SQL search looks for exact text patterns (using LIKE or indices). Vector DB search converts keywords and context into high-dimensional vectors, searching semantically (e.g. searching 'automobile' will return 'car' matching data profiles)."
+    }
+  ]
+}

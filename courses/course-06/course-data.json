@@ -1,0 +1,245 @@
+{
+  "course_id": 6,
+  "title": "Data Analytics with Excel & Power BI",
+  "category": "data",
+  "level": "beg",
+  "duration": "6 weeks",
+  "outcome": "Data Analyst",
+  "overview": "Excel aur Power BI data analytics ke primary pillars hain. Is course mein hum Excel pivot tables se lekar advanced DAX calculations aur real-time Power BI dashboards design karna seekhenge step-by-step.",
+  "objectives": [
+    "Excel data cleaning techniques, key formulas aur pivot tables par grip banana.",
+    "Power BI interface, data extraction, validation, aur modeling setup karna.",
+    "Advanced DAX modeling (Measures, Columns, Relationships) explore karna.",
+    "Indian business use cases (like Retail / E-commerce sales analysis) par complete dashboard build karna."
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "title": "Phase 1: Excel Essentials (Weeks 1-2)",
+        "desc": "Foundational cleaning formulas, sorting, pivoting aur dashboard designing in Excel."
+      },
+      {
+        "title": "Phase 2: Power BI ETL & Modeling (Weeks 3-5)",
+        "desc": "Importing multiple data sources, relationship creation, validation, and DAX calculations."
+      },
+      {
+        "title": "Phase 3: Portfolio & Capstone (Week 6)",
+        "desc": "D-Mart style customer retention analytics dashboard project, resume writing & Upwork guide."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "week": 1,
+      "title": "Excel Foundations & Data Cleaning",
+      "lessons": [
+        {
+          "lesson_id": "w1-l1",
+          "title": "Introduction to Data Analytics & Data Hygiene",
+          "content": "Data cleaning, data analytics ka 80% work hota hai. Jab tak data clean aur hybrid structure mein na ho, models analysis wrong predictions dete hain. Excel primary application hai data hygiene achieve karne ke liye.\n\n### Core Operations:\n1. **TRIM**: Remove trailing, leading and redundant spaces.\n2. **UPPER / LOWER / PROPER**: Normalise case matching for name variables.\n3. **Remove Duplicates**: Data validation panel controls duplicate primary key entries.",
+          "code": "=TRIM(PROPER(A2)) // clean and normalise string case",
+          "diagram": "Raw Database Table -> Trim & Proper Case Conversion -> Unique Primary Keys Table",
+          "quiz": [
+            {
+              "question": "Excel data mein raw duplicate rows clean karne ke liye primary tool kya hai?",
+              "options": [
+                "Data Tab > Remove Duplicates",
+                "Home Tab > Find & Select",
+                "Formulas Tab > Clean Output",
+                "Insert Tab > Clean Checkbox"
+              ],
+              "answer": 0,
+              "explanation": "Data Tab inside ribbon main standard command default data validations and duplicates checking ke liye standard tool data hygiene setup me work karti hai."
+            }
+          ],
+          "assignment": {
+            "title": "Kirana Store customer database cleaning assignment",
+            "prompt": "Download standard customer registry list and perform case hygiene formatting, strip leading spaces and extract unique customer IDs using functions."
+          },
+          "downloads": [
+            { "name": "Kirana Registry Raw Excel", "url": "/shared/checklists/kirana_raw.xlsx" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Advanced Excel & VLOOKUP/XLOOKUP",
+      "lessons": [
+        {
+          "lesson_id": "w2-l1",
+          "title": "Retrieving data using VLOOKUP and XLOOKUP",
+          "content": "Data retrieval models mapping process me key lookup arrays implement karna primary query standard hai. \n\n### VLOOKUP vs XLOOKUP:\n- **VLOOKUP**: Limitations like strictly left-to-right search, static column indices (e.g. index column number counts).\n- **XLOOKUP**: Native match default parameters, searches left or right dynamically, fallback error support built-in.",
+          "code": "=XLOOKUP(lookup_value, lookup_array, return_array, \"Not Found\", 0)",
+          "diagram": "Customer Lookup ID -> Search in Database column -> Return Matching values dynamic array",
+          "quiz": [
+            {
+              "question": "XLOOKUP ke inside error handling parameters (if not found parameter) default support use karne ka function style logic?",
+              "options": [
+                "4th parameter me define nested value string directly write rules",
+                "3rd parameter me check validation rules",
+                "IFERROR query wrappers nested validation checks only",
+                "Formula properties configuration panel overrides standard value definitions"
+              ],
+              "answer": 0,
+              "explanation": "XLOOKUP contains a direct 4th parameter called [if_not_found] which enables user fallback configuration natively without extra wrappers."
+            }
+          ],
+          "assignment": {
+            "title": "Indian E-commerce Sales Inventory analysis lookup query script",
+            "prompt": "Implement a lookup workflow linking sales invoice IDs with inventory prices array data list."
+          },
+          "downloads": [
+            { "name": "Lookup Exercise File", "url": "/shared/checklists/lookup_exercise.xlsx" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Power BI Basics & ETL data imports",
+      "lessons": [
+        {
+          "lesson_id": "w3-l1",
+          "title": "Setting up workspace, Power Query and Data Import",
+          "content": "Power BI primary interface dashboards processing, ETL execution dashboard pipeline framework design models build standard data mapping platforms represent karta hai. Clean datasets model pipeline rules target design pattern validation setup build parameters analyze and map logic arrays parameters control tools framework process pipelines control rules logic templates validation check styles data source connectivity standard inputs configure setup maps rules definitions structure visual dashboards control rules data layers standard imports dynamic framework definitions control parameters structures rules workflow validation check dashboard UI standard formats definitions database structures.",
+          "code": "Source = Excel.Workbook(File.Contents(\"C:\\Data\\sales.xlsx\"), null, true)",
+          "diagram": "Import File Sources -> Power Query Editor (Transform/Clean) -> Model View (Tables link setup)",
+          "quiz": [
+            {
+              "question": "Power Query panel transformation commands save database actions rules dynamically list in:",
+              "options": [
+                "Applied Steps box inside Query Settings",
+                "ETL history logs",
+                "Formula bar properties list variables",
+                "Import parameters configurations folder"
+              ],
+              "answer": 0,
+              "explanation": "Applied Steps logs and chains every modification action in a sequence that refreshes dynamically when raw data changes."
+            }
+          ],
+          "assignment": {
+            "title": "Indian retail stores import query model design validation checks",
+            "prompt": "Create multiple Excel data connections inside Power Query editor and map them to standard tables."
+          },
+          "downloads": [
+            { "name": "Power BI Import Samples", "url": "/shared/checklists/pbi_imports.zip" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Power BI Visualizations",
+      "lessons": [
+        {
+          "lesson_id": "w4-l1",
+          "title": "Choosing right chart types and interactive dashboard designing",
+          "content": "Visual aesthetics business metrics represent model parameters control rules interface elements standard design layouts define context details standard charts mapping systems build target visualization panels parameters.",
+          "code": "// Custom Visualization theme definition style rules\n{\"name\": \"Sleek Dark Theme\", \"visualStyles\": {}}",
+          "diagram": "Main dashboard Canvas Grid: KPIs -> Bar charts -> Drill-through table details panel views",
+          "quiz": [
+            {
+              "question": "Dashboard visualizations me cross-filtering control rules filter behaviors change validation parameter overrides standard click responses config via:",
+              "options": [
+                "Edit Interactions properties panel tab settings",
+                "Filter properties default panels options",
+                "Visualization settings overrides",
+                "Chart attributes custom definitions settings"
+              ],
+              "answer": 0,
+              "explanation": "Format tab > Edit Interactions enables control of dashboard cross-filtering attributes when dynamic nodes click properties change dashboard states."
+            }
+          ],
+          "assignment": {
+            "title": "Create a executive financial reporting view template schema",
+            "prompt": "Build an interactive single page revenue metrics visual canvas dashboard using default card, gauge and table nodes."
+          },
+          "downloads": [
+            { "name": "Dashboard layouts SOP check list", "url": "/shared/checklists/dashboard_sop.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "title": "DAX Modeling & Calculated Columns",
+      "lessons": [
+        {
+          "lesson_id": "w5-l1",
+          "title": "Understanding syntax rules for Measures and Calculated Columns in DAX",
+          "content": "Data Analysis Expressions (DAX) Power BI functions programming framework data model manipulation calculations algorithms setup parameters logic targets standard filters metrics evaluations design maps relationships arrays.",
+          "code": "TotalSalesRevenue = SUM(SalesInvoice[InvoicePrice]) * (1 - [StandardDiscountPercentage])",
+          "diagram": "DAX Query evaluation model: User Filters -> Row-Context mapping -> Filter-Context execution",
+          "quiz": [
+            {
+              "question": "Calculated Column and Measure query expressions rules inside DAX model definitions structure differences:",
+              "options": [
+                "Calculated Columns row-by-row memory space allocate checks, Measures evaluate on dynamic visual filter queries",
+                "Calculated Columns dynamic rules, Measures static memory allocations",
+                "Formula attributes configuration variables definition settings validation query outputs",
+                "Data types validations standard parameter calculations rules metrics mappings configurations"
+              ],
+              "answer": 0,
+              "explanation": "Calculated Columns allocate static storage values in memory database tables, whereas Measures calculate dynamic values during query execution."
+            }
+          ],
+          "assignment": {
+            "title": "Year-over-Year (YoY) Sales Comparison metrics formulation logic exercise",
+            "prompt": "Implement dynamic DAX measures calculating total margins, discount rates, and month-over-month margin values list."
+          },
+          "downloads": [
+            { "name": "DAX cheat sheet template card", "url": "/shared/checklists/dax_cheatsheet.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 6,
+      "title": "Capstone Portfolio & Interview Prep",
+      "lessons": [
+        {
+          "lesson_id": "w6-l1",
+          "title": "Indian E-commerce Sales Performance capstone analytics report validation",
+          "content": "Complete data analytics validation dashboard modeling reporting framework presentation guidelines checklist pipeline validations portfolios packaging.",
+          "code": "FinalDashboardReportURL = \"https://app.powerbi.com/groups/me/reports/capstone_sales_db\"",
+          "diagram": "ETL ingestion -> Modeling DAX formulas -> Interactive Visual layout -> Direct portfolio build reference",
+          "quiz": [
+            {
+              "question": "Portfolio hosting dashboard links validation profiles standard public publishing platform recommended:",
+              "options": [
+                "NovyPro platform dashboard gallery showcase profile portfolio listings links",
+                "GitHub readme raw screenshots details views lists links",
+                "Local directory file hosting server nodes links",
+                "Private data dashboards internal reporting tools"
+              ],
+              "answer": 0,
+              "explanation": "NovyPro is the premier platform to showcase interactive Power BI reports publicly to recruiters."
+            }
+          ],
+          "assignment": {
+            "title": "Deploy capstone analytics report and document portfolios pipeline",
+            "prompt": "Finalise retail store database analytics capstone project dashboard, compile portfolio documentation case study."
+          },
+          "downloads": [
+            { "name": "Indian Stores Retail Raw CSV database files", "url": "/shared/checklists/retail_raw.csv" }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "D-Mart Style Indian Retail Store Operations Insights Dashboard",
+    "description": "Indian retail stores raw transaction records dataset analysis processing, KPI metrics dashboard design, publication, and recruiter-ready case-study layout."
+  },
+  "interview_questions": [
+    {
+      "question": "Explain Star Schema and SnowFlake Schema differences in Power BI database modeling.",
+      "answer": "Star Schema is highly optimized for performance where fact tables are linked directly to flat dimension tables. Snowflake Schema contains normalized dimension tables linked recursively to sub-dimensions, causing multi-hop join queries that decrease data refresh speeds."
+    },
+    {
+      "question": "How do you optimize slow DAX queries in a complex dashboard containing over 50 metric cards?",
+      "answer": "Identify bottlenecks using Performance Analyzer. Replace complex row-level context variables with optimized measures, split visual cards into separate summary pages, pre-calculate index values inside Power Query editor (ETL level) and disable auto-detect date/time parameters."
+    }
+  ]
+}

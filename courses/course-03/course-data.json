@@ -1,0 +1,175 @@
+{
+  "course_id": 3,
+  "title": "Workflow Automation: Make.com / Zapier / n8n",
+  "category": "ai",
+  "level": "beg",
+  "duration": "4 weeks",
+  "outcome": "Automation Consultant",
+  "overview": "Make.com, Zapier, aur n8n platforms use karke business workflows, API connectivity aur automated background processes design aur implement karna seekhein.",
+  "objectives": [
+    "Workflow automation concepts (Triggers, Actions, Filters) master karna.",
+    "Multi-step automated operations build aur setup karna.",
+    "Error handling logic workflows aur routing configurations custom rules setup karna.",
+    "Upwork / Fiverr portfolio layouts case study design publish launch."
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "title": "Phase 1: Basic Scenarios (Weeks 1-2)",
+        "desc": "Setting up accounts, simple trigger-to-action connections, filtering data."
+      },
+      {
+        "title": "Phase 2: Complex Router Integrations (Week 3)",
+        "desc": "Conditional routing paths, data formatting functions, error fallback paths."
+      },
+      {
+        "title": "Phase 3: AI Integration & Business Launch (Week 4)",
+        "desc": "Injecting AI completion APIs in workflows, freelance agency pricing setups."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "week": 1,
+      "title": "Automation Fundamentals",
+      "lessons": [
+        {
+          "lesson_id": "w1-l1",
+          "title": "Triggers, Actions, and Workflows Architecture",
+          "content": "Automation pipelines businesses ke daily redundant tasks minimize karte hain. \n\n### Primary Nodes:\n- **Trigger**: Event jo workflow kickstart karta hai (e.g. New email check, webhook event reception).\n- **Action**: Operative steps executables (e.g. Append database row, post status update).\n- **Webhooks**: Real-time push updates framework communication data transfer.",
+          "code": "// Webhook payload schema example JSON\n{ \"event\": \"lead_received\", \"data\": { \"email\": \"user@store.in\" } }",
+          "diagram": "User lead capture form -> Webhook dispatch -> Trigger activation -> Actions execution",
+          "quiz": [
+            {
+              "question": "Workflows trigger and action pipelines me webhook communication data format standard kya hai?",
+              "options": [
+                "JSON raw objects payloads data",
+                "CSV flat text tables data",
+                "XML properties format logs",
+                "Binary data byte arrays"
+              ],
+              "answer": 0,
+              "explanation": "JSON is the universal REST standard data structure for passing webhook transaction details."
+            }
+          ],
+          "assignment": {
+            "title": "Design validation trigger testing environment task",
+            "prompt": "Create a dummy webhook capture module and capture output variables values lists."
+          },
+          "downloads": [
+            { "name": "Webhooks fundamentals SOP card", "url": "/shared/checklists/webhooks_guide.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Multi-Step Workflows & Routers",
+      "lessons": [
+        {
+          "lesson_id": "w2-l1",
+          "title": "Conditional Routing and Advanced Routers in Make.com",
+          "content": "Workflows parameters analysis filters execution settings validations control pipelines setup logic.\n\n### Advanced Tools:\n- **Routers**: Split paths dynamically based on data attributes values.\n- **Filters**: Halt execution if parameters criteria mismatch rules.",
+          "code": "// Filter Condition\n{{1.lead_status}} = \"Premium\"",
+          "diagram": "Ingress Lead -> Router split -> [Path A: Enterprise notification] [Path B: Standard auto-reply]",
+          "quiz": [
+            {
+              "question": "Workflows routing execution paths conditional parameters checks filters logic based on:",
+              "options": [
+                "Incoming webhook payload data attributes values list",
+                "Model runtime settings dashboard configurations",
+                "Local directory file properties listings metadata",
+                "Standard API connection auth headers criteria"
+              ],
+              "answer": 0,
+              "explanation": "Filters evaluate data values extracted from preceding steps in the active execution scenario."
+            }
+          ],
+          "assignment": {
+            "title": "Implement an automated CRM routing pipeline task",
+            "prompt": "Setup conditional routes linking inbound sales leads sheet to dedicated Slack channels based on business size."
+          },
+          "downloads": [
+            { "name": "Make Router setups checklists", "url": "/shared/checklists/make_routers.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "AI Integrations & n8n Workflows",
+      "lessons": [
+        {
+          "lesson_id": "w3-l1",
+          "title": "Embedding AI/LLM Nodes inside background workflows pipelines",
+          "content": "Adding smart modules (GPT / Claude APIs) inside workflows unlocks intelligent operations like email draft analysis, auto-responses, content classification.",
+          "code": "n8n_openai_node_config = {\"model\": \"gpt-4-mini\", \"prompt\": \"Write response to {{lead_email}}\"}",
+          "diagram": "Inbound Customer Email -> OpenAI node (Draft resolution) -> Gmail node (Send Draft as reply)",
+          "quiz": [
+            {
+              "question": "AI workflow nodes parameters must include structured formatting instructions to prevent:",
+              "options": [
+                "Unpredictable text formatting and database parser errors",
+                "Workflow trigger configuration timeouts",
+                "IP blacklist blocks from email servers",
+                "API token balance calculations mismatches"
+              ],
+              "answer": 0,
+              "explanation": "Strict formats prevent downstream applications parsers from failing."
+            }
+          ],
+          "assignment": {
+            "title": "Deploy an AI customer support reply workflow scenario",
+            "prompt": "Setup a n8n scenario connecting email inbox to OpenAI API for draft reply generation."
+          },
+          "downloads": [
+            { "name": "AI Workflow nodes configuration cheatsheet", "url": "/shared/checklists/n8n_ai.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Monetization & Case Studies",
+      "lessons": [
+        {
+          "lesson_id": "w4-l1",
+          "title": "Packaging workflows as SaaS solutions and selling automation services",
+          "content": "Automations consultants package custom pipelines, pricing strategies, Upwork profile optimization frameworks.",
+          "code": "FREELANCE_AUTOMATION_PITCH = \"I will save your team 15 hours/week by automating lead-capture pipeline\"",
+          "diagram": "Client current slow manual flow -> Proposed automated workflow -> Pitch deck presentation",
+          "quiz": [
+            {
+              "question": "Automation services sales arguments focus primarily on:",
+              "options": [
+                "Hours of manual tasks eliminated and error rate reductions",
+                "The number of active nodes inside scenarios lists",
+                "API subscription counts of platforms used",
+                "IP proxy addresses routing rules lists"
+              ],
+              "answer": 0,
+              "explanation": "Client ROI metrics are determined by hours saved and operations speedups."
+            }
+          ],
+          "assignment": {
+            "title": "Compile an automation case study proposal dashboard",
+            "prompt": "Write a complete workflow audit case study for an e-commerce retail warehouse automation."
+          },
+          "downloads": [
+            { "name": "Automation Audit template checklist doc", "url": "/shared/checklists/automation_audit.docx" }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "Automated Multi-Channel Lead Nurturing & CRM Sync System",
+    "description": "Construct an end-to-end multi-app automation system in Make.com/n8n that listens to Stripe transaction webhooks, logs to Google Sheets, creates Salesforce contact profiles, and drafts AI onboarding emails."
+  },
+  "interview_questions": [
+    {
+      "question": "How do you handle API rate limits and execution errors in Make.com?",
+      "answer": "Implement error handling routing blocks (Break, Resume, Rollback, Ignore) at the specific node level. Configure automatic retry loops with exponential backoffs to prevent total scenario crashes."
+    }
+  ]
+}

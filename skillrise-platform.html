@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SkillRise — Learn. Work. Earn.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black:#0A0A0A; --ink:#111317; --card:#16191F; --border:#232730;
+    --muted:#3A3F4B; --text-dim:#7A8195; --text:#C8CCDA; --white:#F0F2F8;
+    --gold:#F5A623; --gold-dim:#C07A10; --gold-glow:rgba(245,166,35,0.15);
+    --green:#2ECC71; --blue:#4A9EFF; --red:#FF5A5F; --purple:#9B59B6;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+
+  #watermark-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;display:none;overflow:hidden;}
+  #watermark-overlay.active{display:block;}
+  .wm-text{position:absolute;color:rgba(245,166,35,0.07);font-family:'Syne',sans-serif;font-size:18px;font-weight:800;white-space:nowrap;transform:rotate(-35deg);user-select:none;pointer-events:none;letter-spacing:2px;}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+  .modal-backdrop.hidden{display:none;}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:440px;padding:36px 32px;position:relative;animation:slideUp 0.3s ease;}
+  @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .modal-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--white);margin-bottom:6px;}
+  .modal-logo span{color:var(--gold);}
+  .modal-subtitle{font-size:0.82rem;color:var(--text-dim);margin-bottom:28px;}
+  .modal h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);margin-bottom:20px;}
+  .form-group{margin-bottom:16px;}
+  .form-group label{display:block;font-size:0.78rem;color:var(--text-dim);margin-bottom:6px;font-weight:500;letter-spacing:0.3px;}
+  .form-group input{width:100%;background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--white);font-family:'Inter',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;}
+  .form-group input:focus{border-color:var(--gold);}
+  .form-group input::placeholder{color:var(--muted);}
+  .btn-full{width:100%;background:var(--gold);color:var(--black);padding:13px;border-radius:8px;font-weight:700;font-size:0.9rem;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.2s;margin-top:4px;}
+  .btn-full:hover{background:#FFB94A;}
+  .modal-switch{text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-dim);}
+  .modal-switch a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:600;}
+  .modal-switch a:hover{text-decoration:underline;}
+  .form-error{font-size:0.76rem;color:var(--red);margin-top:6px;display:none;}
+  .form-error.show{display:block;}
+
+  .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+  .plan-card{border:2px solid var(--border);border-radius:12px;padding:20px 16px;cursor:pointer;transition:all 0.2s;text-align:center;position:relative;}
+  .plan-card:hover,.plan-card.selected{border-color:var(--gold);background:var(--gold-glow);}
+  .plan-card.popular::before{content:'BEST VALUE';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--black);font-size:0.6rem;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:1px;white-space:nowrap;}
+  .plan-name{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:4px;}
+  .plan-price{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--gold);}
+  .plan-price sup{font-size:0.9rem;vertical-align:top;margin-top:6px;display:inline-block;}
+  .plan-period{font-size:0.72rem;color:var(--text-dim);margin-top:4px;}
+  .plan-saving{font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;}
+  .plan-features{list-style:none;margin:16px 0 0;text-align:left;}
+  .plan-features li{font-size:0.76rem;color:var(--text-dim);padding:3px 0;display:flex;gap:6px;align-items:flex-start;}
+  .plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+  .demo-note{background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.2);border-radius:8px;padding:10px 14px;font-size:0.76rem;color:var(--blue);margin-bottom:20px;line-height:1.5;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:64px;background:rgba(10,10,10,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--white);letter-spacing:-0.5px;}
+  .nav-logo span{color:var(--gold);}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{color:var(--text-dim);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-right{display:flex;align-items:center;gap:10px;}
+  .nav-user{display:none;align-items:center;gap:10px;}
+  .nav-user.active{display:flex;}
+  .user-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold-glow);border:2px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.85rem;cursor:pointer;}
+  .user-name{font-size:0.82rem;color:var(--text-dim);}
+  .badge-plan{font-size:0.65rem;padding:2px 8px;border-radius:20px;font-weight:700;text-transform:uppercase;}
+  .badge-free{background:rgba(122,129,149,0.15);color:var(--text-dim);}
+  .badge-pro{background:rgba(245,166,35,0.15);color:var(--gold);}
+  .nav-cta{background:var(--gold);color:var(--black);padding:8px 20px;border-radius:6px;font-weight:700;font-size:0.82rem;text-decoration:none;transition:background 0.2s;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .nav-cta:hover{background:#FFB94A;}
+  .nav-auth-btns{display:flex;gap:8px;}
+  .nav-auth-btns.hidden{display:none;}
+  .btn-outline{background:transparent;color:var(--white);padding:8px 18px;border-radius:6px;font-weight:600;font-size:0.82rem;border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;}
+  .btn-outline:hover{border-color:var(--muted);background:var(--card);}
+  .btn-logout{background:transparent;color:var(--text-dim);border:none;cursor:pointer;font-size:0.78rem;font-family:'Inter',sans-serif;transition:color 0.2s;padding:4px 0;}
+  .btn-logout:hover{color:var(--red);}
+
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 5% 60px;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,166,35,0.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 60%,rgba(74,158,255,0.05) 0%,transparent 60%);}
+  .hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.25;}
+  .hero-content{position:relative;z-index:1;max-width:820px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-glow);border:1px solid rgba(245,166,35,0.3);color:var(--gold);font-size:0.75rem;font-weight:600;padding:6px 14px;border-radius:100px;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:28px;}
+  .hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;color:var(--white);line-height:1.1;letter-spacing:-1.5px;margin-bottom:22px;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero-sub{font-size:clamp(0.95rem,2vw,1.1rem);color:var(--text-dim);max-width:560px;margin:0 auto 36px;line-height:1.7;}
+  .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{background:var(--gold);color:var(--black);padding:14px 32px;border-radius:8px;font-weight:700;font-size:0.9rem;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer;box-shadow:0 0 30px rgba(245,166,35,0.3);font-family:'Inter',sans-serif;}
+  .btn-primary:hover{background:#FFB94A;transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--white);padding:14px 32px;border-radius:8px;font-weight:600;font-size:0.9rem;text-decoration:none;border:1px solid var(--border);transition:all 0.2s;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-ghost:hover{border-color:var(--muted);background:var(--card);}
+
+  .stats{display:flex;flex-wrap:wrap;justify-content:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .stat{flex:1;min-width:160px;padding:28px 24px;text-align:center;border-right:1px solid var(--border);}
+  .stat:last-child{border-right:none;}
+  .stat-num{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);display:block;}
+  .stat-num em{font-style:normal;color:var(--gold);}
+  .stat-label{font-size:0.78rem;color:var(--text-dim);letter-spacing:0.3px;margin-top:4px;}
+
+  section{padding:80px 5%;}
+  .section-label{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:12px;}
+  .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--white);letter-spacing:-0.8px;margin-bottom:12px;}
+  .section-sub{color:var(--text-dim);max-width:540px;font-size:0.95rem;line-height:1.7;margin-bottom:44px;}
+
+  .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;}
+  .filter-btn{padding:7px 16px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+  .filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold);background:var(--gold-glow);}
+
+  .courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .course-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;transition:all 0.25s;cursor:pointer;position:relative;overflow:hidden;}
+  .course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+  .course-card:hover{border-color:var(--muted);transform:translateY(-2px);}
+  .course-card:hover::before{transform:scaleX(1);}
+  .course-card.locked{cursor:default;}
+  .course-card.locked:hover{transform:none;}
+
+  .lock-overlay{position:absolute;inset:0;background:rgba(10,10,10,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;gap:8px;backdrop-filter:blur(2px);opacity:0;transition:opacity 0.25s;pointer-events:none;}
+  .course-card.locked:hover .lock-overlay{opacity:1;pointer-events:all;}
+  .lock-icon{font-size:1.8rem;}
+  .lock-label{font-size:0.78rem;color:var(--gold);font-weight:700;text-align:center;line-height:1.4;}
+  .lock-btn{background:var(--gold);color:var(--black);border:none;padding:8px 18px;border-radius:6px;font-weight:700;font-size:0.78rem;cursor:pointer;font-family:'Inter',sans-serif;margin-top:4px;}
+
+  .course-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:14px;}
+  .course-cat{font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent,var(--gold));font-weight:600;margin-bottom:6px;}
+  .course-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--white);line-height:1.35;margin-bottom:8px;}
+  .course-outcome{font-size:0.78rem;color:var(--text-dim);display:flex;align-items:center;gap:6px;margin-bottom:14px;}
+  .course-outcome::before{content:'→';color:var(--accent,var(--gold));font-size:0.85rem;}
+  .course-meta{display:flex;gap:10px;align-items:center;padding-top:14px;border-top:1px solid var(--border);}
+  .badge-level{font-size:0.68rem;padding:3px 8px;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+  .badge-beg{background:rgba(46,204,113,0.12);color:var(--green);}
+  .badge-int{background:rgba(74,158,255,0.12);color:var(--blue);}
+  .badge-adv{background:rgba(155,89,182,0.12);color:var(--purple);}
+  .badge-dur{font-size:0.72rem;color:var(--text-dim);margin-left:auto;}
+  .badge-hot{font-size:0.65rem;padding:2px 7px;border-radius:4px;background:rgba(255,90,95,0.12);color:var(--red);font-weight:700;text-transform:uppercase;}
+  .badge-free-tag{font-size:0.65rem;padding:2px 7px;border-radius:4px;background:rgba(46,204,113,0.12);color:var(--green);font-weight:700;text-transform:uppercase;}
+
+  .how-bg{background:var(--ink);}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;margin-top:20px;}
+  .step{padding:36px 28px;position:relative;border:1px solid var(--border);}
+  .step-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--border);line-height:1;margin-bottom:16px;}
+  .step-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:10px;}
+  .step-desc{font-size:0.85rem;color:var(--text-dim);line-height:1.65;}
+  .step-icon{position:absolute;top:28px;right:28px;font-size:1.6rem;opacity:0.4;}
+
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:900px;}
+  .pricing-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;position:relative;}
+  .pricing-card.featured{border-color:var(--gold);box-shadow:0 0 40px rgba(245,166,35,0.12);}
+  .pricing-card .featured-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--black);font-size:0.65rem;font-weight:800;padding:4px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+  .pricing-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+  .pricing-price{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--gold);line-height:1;}
+  .pricing-price sup{font-size:1rem;vertical-align:top;margin-top:8px;display:inline-block;}
+  .pricing-period{font-size:0.78rem;color:var(--text-dim);margin-bottom:20px;}
+  .pricing-features{list-style:none;margin-bottom:24px;}
+  .pricing-features li{font-size:0.83rem;color:var(--text-dim);padding:6px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;}
+  .pricing-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+  .pricing-features li.no::before{content:'✗';color:var(--muted);}
+  .pricing-features li.no{color:var(--muted);}
+
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+  .why-card{padding:28px 24px;border:1px solid var(--border);border-radius:12px;background:var(--card);}
+  .why-icon{font-size:1.8rem;margin-bottom:14px;}
+  .why-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+  .why-desc{font-size:0.83rem;color:var(--text-dim);line-height:1.65;}
+
+  .testimonials-bg{background:var(--ink);}
+  .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+  .testimonial{padding:28px 24px;border:1px solid var(--border);border-radius:12px;background:var(--card);}
+  .testimonial-quote{font-size:0.88rem;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic;}
+  .testimonial-quote::before{content:'"';color:var(--gold);font-size:1.4rem;}
+  .testimonial-author{display:flex;align-items:center;gap:12px;}
+  .t-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;background:var(--gold-glow);color:var(--gold);font-family:'Syne',sans-serif;}
+  .t-name{font-size:0.85rem;font-weight:600;color:var(--white);}
+  .t-role{font-size:0.75rem;color:var(--text-dim);}
+  .t-stars{color:var(--gold);font-size:0.75rem;margin-top:2px;}
+
+  .cta-banner{margin:0 5% 80px;background:linear-gradient(135deg,rgba(245,166,35,0.12) 0%,rgba(74,158,255,0.06) 100%);border:1px solid rgba(245,166,35,0.25);border-radius:16px;padding:60px 48px;text-align:center;position:relative;overflow:hidden;}
+  .cta-banner h2{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;color:var(--white);letter-spacing:-0.8px;margin-bottom:14px;}
+  .cta-banner p{color:var(--text-dim);margin-bottom:30px;font-size:0.95rem;}
+
+  #member-dashboard{display:none;padding:20px 5% 40px;}
+  #member-dashboard.active{display:block;}
+  .dashboard-header{background:linear-gradient(135deg,rgba(245,166,35,0.1) 0%,rgba(74,158,255,0.05) 100%);border:1px solid rgba(245,166,35,0.2);border-radius:14px;padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .dashboard-welcome{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--white);}
+  .dashboard-welcome span{color:var(--gold);}
+  .dashboard-meta{font-size:0.8rem;color:var(--text-dim);margin-top:4px;}
+  .dashboard-stats{display:flex;gap:24px;flex-wrap:wrap;}
+  .dash-stat{text-align:center;}
+  .dash-stat-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--gold);}
+  .dash-stat-label{font-size:0.72rem;color:var(--text-dim);}
+  .upgrade-banner{background:rgba(245,166,35,0.06);border:1px dashed rgba(245,166,35,0.3);border-radius:10px;padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .upgrade-banner p{font-size:0.85rem;color:var(--text-dim);}
+  .upgrade-banner p strong{color:var(--gold);}
+  .upgrade-banner.hidden{display:none;}
+
+  footer{border-top:1px solid var(--border);padding:36px 5%;text-align:center;color:var(--text-dim);font-size:0.8rem;}
+  footer strong{color:var(--white);}
+
+  @media(max-width:640px){
+    .nav-links{display:none;}
+    .stat{border-right:none;border-bottom:1px solid var(--border);}
+    .cta-banner{padding:36px 24px;margin:0 4% 60px;}
+    .plan-grid{grid-template-columns:1fr;}
+    .modal{padding:28px 20px;}
+  }
+
+  /* LMS Container Styles */
+  #lms-container {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 600;
+    display: none;
+    flex-direction: column;
+  }
+  #lms-container.active {
+    display: flex;
+  }
+  .lms-header {
+    height: 64px;
+    background: var(--ink);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+  }
+  .lms-title-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .lms-course-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--white);
+  }
+  .lms-close-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+  .lms-close-btn:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .lms-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+  .lms-sidebar {
+    width: 320px;
+    background: var(--ink);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .lms-week-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .lms-week-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .lms-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+  .lms-sidebar-item:hover, .lms-sidebar-item.active {
+    background: var(--card);
+    color: var(--white);
+  }
+  .lms-sidebar-item.active {
+    border-left-color: var(--gold);
+  }
+  .lms-sidebar-item.completed::after {
+    content: '✓';
+    color: var(--green);
+    margin-left: auto;
+    font-weight: bold;
+  }
+  .lms-content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 8%;
+    background: var(--black);
+  }
+  .lms-pane {
+    display: none;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .lms-pane.active {
+    display: block;
+  }
+
+  /* Quiz Styles */
+  .quiz-container {
+    margin-top: 24px;
+  }
+  .quiz-question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .quiz-option {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--ink);
+  }
+  .quiz-option:hover {
+    border-color: var(--gold);
+  }
+  .quiz-option.selected {
+    border-color: var(--gold);
+    background: var(--gold-glow);
+  }
+  .quiz-option.correct {
+    border-color: var(--green) !important;
+    background: rgba(46,204,113,0.1) !important;
+    color: var(--white);
+  }
+  .quiz-option.incorrect {
+    border-color: var(--red) !important;
+    background: rgba(255,90,95,0.1) !important;
+    color: var(--white);
+  }
+  .quiz-explanation {
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 10px 14px;
+    background: rgba(245,166,35,0.05);
+    border-left: 2px solid var(--gold);
+    border-radius: 4px;
+  }
+
+  /* Certificate Generator Overlay */
+  .cert-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .cert-overlay.active {
+    display: flex;
+  }
+  .cert-card {
+    width: 100%;
+    max-width: 800px;
+    background: #111;
+    border: 8px double var(--gold);
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    font-family: 'Inter', sans-serif;
+    color: var(--white);
+  }
+  .cert-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .cert-sub {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    margin-bottom: 30px;
+  }
+  .cert-recipient {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    border-bottom: 2px solid var(--border);
+    display: inline-block;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    min-width: 300px;
+  }
+  .cert-course {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+  .cert-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding: 0 40px;
+  }
+  .cert-sig {
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    width: 150px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .cert-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .cert-close:hover {
+    color: var(--white);
+  }
+
+</style>
+</head>
+<body>
+
+<div id="watermark-overlay"></div>
+
+<div class="modal-backdrop hidden" id="login-modal">
+  <div class="modal">
+    <div class="modal-logo">Skill<span>Rise</span></div>
+    <div class="modal-subtitle">Learn. Work. Earn.</div>
+    <h2>Sign In to Your Account</h2>
+    <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="you@example.com"/></div>
+    <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Enter your password"/></div>
+    <div class="form-error" id="login-error">Invalid email or password. Try: demo@skillrise.in / demo123</div>
+    <button class="btn-full" onclick="doLogin()">Sign In →</button>
+    <div class="modal-switch">Don't have an account? <a onclick="showModal('signup-modal')">Create one free</a></div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="signup-modal">
+  <div class="modal">
+    <div class="modal-logo">Skill<span>Rise</span></div>
+    <div class="modal-subtitle">Start learning. Start earning.</div>
+    <h2>Create Free Account</h2>
+    <div class="form-group"><label>Full Name</label><input type="text" id="signup-name" placeholder="Your full name"/></div>
+    <div class="form-group"><label>Email Address</label><input type="email" id="signup-email" placeholder="you@example.com"/></div>
+    <div class="form-group"><label>Password</label><input type="password" id="signup-pass" placeholder="Create a password (min 6 chars)"/></div>
+    <div class="form-error" id="signup-error">Please fill all fields correctly.</div>
+    <button class="btn-full" onclick="doSignup()">Create Free Account →</button>
+    <div class="modal-switch">Already have an account? <a onclick="showModal('login-modal')">Sign in</a></div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="paywall-modal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-logo">Skill<span>Rise</span></div>
+    <div class="modal-subtitle" style="margin-bottom:16px;">Unlock all 50+ courses with Pro access</div>
+    <div class="demo-note">🔵 <strong>Demo mode:</strong> Click any plan to simulate upgrade. In production, this connects to a real payment gateway (Razorpay / PhonePe).</div>
+    <div class="plan-grid">
+      <div class="plan-card" id="plan-monthly" onclick="selectPlan('monthly')">
+        <div class="plan-name">Monthly</div>
+        <div class="plan-price"><sup>₹</sup>99</div>
+        <div class="plan-period">per month</div>
+        <ul class="plan-features"><li>All 50+ courses</li><li>Completion certificates</li><li>Community access</li><li>Cancel anytime</li></ul>
+      </div>
+      <div class="plan-card popular selected" id="plan-yearly" onclick="selectPlan('yearly')">
+        <div class="plan-name">Yearly</div>
+        <div class="plan-price"><sup>₹</sup>999</div>
+        <div class="plan-period">per year</div>
+        <div class="plan-saving">Save ₹189 — 2 months free!</div>
+        <ul class="plan-features"><li>All 50+ courses</li><li>Completion certificates</li><li>Community access</li><li>Priority support</li></ul>
+      </div>
+    </div>
+    <button class="btn-full" id="pay-btn" onclick="doUpgrade()">Activate Pro — ₹999/year →</button>
+    <div class="modal-switch"><a onclick="hideModal('paywall-modal')">Maybe later — continue with free access</a></div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-logo">Skill<span>Rise</span></div>
+  <ul class="nav-links">
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#stories">Stories</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-auth-btns" id="nav-auth-btns">
+      <button class="btn-outline" onclick="showModal('login-modal')">Sign In</button>
+      <button class="nav-cta" onclick="showModal('signup-modal')">Start Free</button>
+    </div>
+    <div class="nav-user" id="nav-user">
+      <div class="user-avatar" id="nav-avatar">?</div>
+      <div><div class="user-name" id="nav-username">User</div><span class="badge-plan badge-free" id="nav-plan-badge">FREE</span></div>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+</nav>
+
+<div id="member-dashboard" style="padding-top:80px;">
+  <div class="dashboard-header">
+    <div>
+      <div class="dashboard-welcome">Welcome back, <span id="dash-name">User</span> 👋</div>
+      <div class="dashboard-meta" id="dash-meta">Free Plan — 3 free courses available</div>
+    </div>
+    <div class="dashboard-stats">
+      <div class="dash-stat"><div class="dash-stat-num" id="dash-courses-count">3</div><div class="dash-stat-label">Courses Available</div></div>
+      <div class="dash-stat"><div class="dash-stat-num">0</div><div class="dash-stat-label">Completed</div></div>
+      <div class="dash-stat"><div class="dash-stat-num" id="dash-cert-count">0</div><div class="dash-stat-label">Certificates</div></div>
+    </div>
+  </div>
+  <div class="upgrade-banner" id="upgrade-banner">
+    <p>🔒 You're on the <strong>Free Plan</strong> — unlock all 50+ courses for just <strong>₹99/month</strong> or <strong>₹999/year</strong>.</p>
+    <button class="btn-primary" style="padding:10px 22px;font-size:0.82rem;" onclick="showModal('paywall-modal')">Upgrade to Pro →</button>
+  </div>
+</div>
+
+<section class="hero" id="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span></span> 2026 Job Market Skills — Updated Monthly</div>
+    <h1>No Job?<br/><em>Wrong Skills.</em><br/>Fix That Here.</h1>
+    <p class="hero-sub">50+ industry-validated courses for job seekers. Learn the exact skills companies are hiring for right now — start earning within months.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showModal('signup-modal')">Start Free Today →</button>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><span class="stat-num">50<em>+</em></span><div class="stat-label">Job-Ready Courses</div></div>
+  <div class="stat"><span class="stat-num">10<em>+</em></span><div class="stat-label">Skill Categories</div></div>
+  <div class="stat"><span class="stat-num">1–3<em>mo</em></span><div class="stat-label">Average Time to Job-Ready</div></div>
+  <div class="stat"><span class="stat-num">170<em>M</em></span><div class="stat-label">New Jobs by 2030 (WEF)</div></div>
+</div>
+
+<section id="courses">
+  <div class="section-label">What You'll Learn</div>
+  <h2 class="section-title">Courses That Get You Hired</h2>
+  <p class="section-sub">Every course maps to a real job or freelance income stream. <span style="color:var(--gold);">Sign up free to preview 3 courses. Upgrade for all 50+.</span></p>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCourses('all',this)">All Courses</button>
+    <button class="filter-btn" onclick="filterCourses('ai',this)">🤖 AI & Automation</button>
+    <button class="filter-btn" onclick="filterCourses('data',this)">📊 Data & Analytics</button>
+    <button class="filter-btn" onclick="filterCourses('cloud',this)">☁️ Cloud & DevOps</button>
+    <button class="filter-btn" onclick="filterCourses('cyber',this)">🔐 Cybersecurity</button>
+    <button class="filter-btn" onclick="filterCourses('dev',this)">💻 Web & App Dev</button>
+    <button class="filter-btn" onclick="filterCourses('marketing',this)">📣 Digital Marketing</button>
+    <button class="filter-btn" onclick="filterCourses('finance',this)">💰 Finance</button>
+    <button class="filter-btn" onclick="filterCourses('creative',this)">🎨 Creative</button>
+    <button class="filter-btn" onclick="filterCourses('freelance',this)">🧑‍💼 Freelancing</button>
+    <button class="filter-btn" onclick="filterCourses('health',this)">🏥 Healthcare IT</button>
+  </div>
+  <div class="courses-grid" id="courseGrid"></div>
+</section>
+
+<section id="how" class="how-bg">
+  <div class="section-label">The Path</div>
+  <h2 class="section-title">Learn → Practice → Earn</h2>
+  <p class="section-sub">A three-stage system built for people starting from zero.</p>
+  <div class="steps">
+    <div class="step"><div class="step-icon">🎯</div><div class="step-num">01</div><div class="step-title">Pick Your Skill</div><p class="step-desc">Choose a course matching your interest or local job market. Every course is vetted against real hiring data.</p></div>
+    <div class="step"><div class="step-icon">📚</div><div class="step-num">02</div><div class="step-title">Learn at Your Pace</div><p class="step-desc">Video lessons, hands-on projects, real-world assignments. No fluff. Every module ends with something you can show an employer.</p></div>
+    <div class="step"><div class="step-icon">🛠️</div><div class="step-num">03</div><div class="step-title">Build Your Portfolio</div><p class="step-desc">Complete real projects that prove your skills. Turn them into a portfolio or Upwork listing recruiters respond to.</p></div>
+    <div class="step"><div class="step-icon">💸</div><div class="step-num">04</div><div class="step-title">Get Hired or Freelance</div><p class="step-desc">Apply for jobs with our resume templates, or start freelancing with client acquisition guides. Your skills now pay your bills.</p></div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="section-label">Plans</div>
+  <h2 class="section-title">Simple, Honest Pricing</h2>
+  <p class="section-sub">Less than a single meal out — for skills that change your career.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">Free</div>
+      <div class="pricing-price">₹0</div>
+      <div class="pricing-period">forever</div>
+      <ul class="pricing-features"><li>3 free preview courses</li><li>Course catalogue access</li><li>Community read access</li><li class="no">Full course content</li><li class="no">Certificates</li><li class="no">Priority support</li></ul>
+      <button class="btn-full" style="background:var(--card);color:var(--white);border:1px solid var(--border);" onclick="showModal('signup-modal')">Get Started Free</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="featured-tag">MOST POPULAR</div>
+      <div class="pricing-name">Pro — Monthly</div>
+      <div class="pricing-price"><sup>₹</sup>99</div>
+      <div class="pricing-period">per month • cancel anytime</div>
+      <ul class="pricing-features"><li>All 50+ courses unlocked</li><li>New courses every month</li><li>Completion certificates</li><li>Community full access</li><li>Resume & portfolio templates</li><li>Priority email support</li></ul>
+      <button class="btn-full" onclick="showModal('paywall-modal')">Start Pro — ₹99/mo →</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">Pro — Yearly</div>
+      <div class="pricing-price"><sup>₹</sup>999</div>
+      <div class="pricing-period">per year • save ₹189</div>
+      <ul class="pricing-features"><li>Everything in Monthly</li><li>2 months free</li><li>Earliest access to new courses</li><li>1-on-1 career Q&A session</li><li>Verified LinkedIn certificate</li><li>Priority email support</li></ul>
+      <button class="btn-full" onclick="showModal('paywall-modal')">Start Pro — ₹999/yr →</button>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="section-label">Why SkillRise</div>
+  <h2 class="section-title">Built Different</h2>
+  <p class="section-sub">Not another video dump. Every decision here is made for one reason: to get you earning faster.</p>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-icon">🔥</div><div class="why-title">Market-Validated Curriculum</div><p class="why-desc">Courses built from real job posting data. If it's not in demand this quarter, it's not in our catalogue.</p></div>
+    <div class="why-card"><div class="why-icon">⚡</div><div class="why-title">Job-Ready in 1–3 Months</div><p class="why-desc">Designed for people with limited time. One hour a day is enough to be employable in 90 days.</p></div>
+    <div class="why-card"><div class="why-icon">🌍</div><div class="why-title">Skills That Work Globally</div><p class="why-desc">Local job, remote work, or international freelancing — these skills cross borders and industries.</p></div>
+    <div class="why-card"><div class="why-icon">📜</div><div class="why-title">Verified Certificates</div><p class="why-desc">Each course ends with a certificate you add to LinkedIn, resumes, and job applications immediately.</p></div>
+    <div class="why-card"><div class="why-icon">🤝</div><div class="why-title">Community Support</div><p class="why-desc">Join a community of learners and graduates. Get unstuck, find collaborators, hear about openings first.</p></div>
+    <div class="why-card"><div class="why-icon">🔒</div><div class="why-title">Your Data is Protected</div><p class="why-desc">All content is watermarked to your account. Secure login, personal access only. No sharing credentials.</p></div>
+  </div>
+</section>
+
+<section id="stories" class="testimonials-bg">
+  <div class="section-label">Real Stories</div>
+  <h2 class="section-title">People Who Made It Work</h2>
+  <p class="section-sub">Job seekers who used SkillRise to go from unemployed to earning.</p>
+  <div class="testimonials-grid">
+    <div class="testimonial"><p class="testimonial-quote">I was jobless for 14 months after my factory shut down. Took the Data Analytics course and landed a BI Analyst role in 11 weeks. My salary doubled.</p><div class="testimonial-author"><div class="t-avatar">R</div><div><div class="t-name">Rahul M.</div><div class="t-role">BI Analyst — Bengaluru</div><div class="t-stars">★★★★★</div></div></div></div>
+    <div class="testimonial"><p class="testimonial-quote">I had a commerce degree but no job. The Digital Marketing course gave me everything. Now I run ads for 4 clients and earn ₹60,000/month freelancing.</p><div class="testimonial-author"><div class="t-avatar">P</div><div><div class="t-name">Priya S.</div><div class="t-role">Freelance Ads Manager — Pune</div><div class="t-stars">★★★★★</div></div></div></div>
+    <div class="testimonial"><p class="testimonial-quote">The AI Automation course changed everything for me. I built a workflow tool for a US startup, and now I consult remotely at $35/hour. I studied for 8 weeks total.</p><div class="testimonial-author"><div class="t-avatar">A</div><div><div class="t-name">Arjun K.</div><div class="t-role">Automation Consultant — Remote</div><div class="t-stars">★★★★★</div></div></div></div>
+    <div class="testimonial"><p class="testimonial-quote">Zero tech background, but the Web Dev course was so practical I built 3 websites during the course itself. Got my first client before I even finished.</p><div class="testimonial-author"><div class="t-avatar">N</div><div><div class="t-name">Nadia F.</div><div class="t-role">Freelance Web Developer — Hyderabad</div><div class="t-stars">★★★★★</div></div></div></div>
+  </div>
+</section>
+
+<div class="cta-banner">
+  <h2>Your Skills Gap is Closable.<br/>Start Today — It's Free.</h2>
+  <p>Join thousands of job seekers who stopped waiting for opportunities and built their own.</p>
+  <button class="btn-primary" onclick="showModal('signup-modal')">Create Free Account →</button>
+</div>
+
+
+<!-- LMS Container -->
+<div id="lms-container">
+  <div class="lms-header">
+    <div class="lms-title-section">
+      <div class="nav-logo" style="margin-right: 20px;">Skill<span>Rise</span></div>
+      <div class="lms-course-title" id="lms-course-title">Course Title</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div class="lms-progress-container" style="display: flex; align-items: center; gap: 8px;">
+        <div style="font-size: 0.75rem; color: var(--text-dim);">Progress:</div>
+        <div style="width: 120px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; position: relative;">
+          <div id="lms-progress-bar" style="width: 0%; height: 100%; background: var(--gold); transition: width 0.3s;"></div>
+        </div>
+        <div id="lms-progress-text" style="font-size: 0.75rem; font-weight: 700; color: var(--gold);">0%</div>
+      </div>
+      <button class="lms-close-btn" onclick="closeLMS()">✕ Close Course</button>
+    </div>
+  </div>
+  <div class="lms-body">
+    <div class="lms-sidebar" id="lms-sidebar">
+      <!-- Generated dynamically -->
+    </div>
+    <div class="lms-content-area">
+      <!-- 1. Course Overview Pane -->
+      <div class="lms-pane active" id="pane-overview">
+        <h1 id="overview-title" style="font-family:'Syne',sans-serif; margin-bottom: 12px; color:var(--white);">Course Overview</h1>
+        <p id="overview-desc" style="color:var(--text-dim); margin-bottom: 24px; line-height:1.7; font-size: 0.95rem;"></p>
+        
+        <h3 style="font-family:'Syne',sans-serif; margin-bottom: 12px; color:var(--white);">Learning Objectives</h3>
+        <ul id="overview-objectives" style="list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 8px; color: var(--text);">
+          <!-- Objectives list -->
+        </ul>
+        
+        <h3 style="font-family:'Syne',sans-serif; margin-bottom: 16px; color:var(--white);">Learning Roadmap</h3>
+        <div id="overview-roadmap" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
+          <!-- Roadmap phases -->
+        </div>
+        
+        <button class="btn-primary" onclick="startCourse()">Start Learning →</button>
+      </div>
+      
+      <!-- 2. Lesson Viewer Pane -->
+      <div class="lms-pane" id="pane-lesson">
+        <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px;" id="lesson-week-tag">Week 1 / Lesson 1</div>
+        <h1 id="lesson-title" style="font-family:'Syne',sans-serif; margin-bottom: 20px; color:var(--white);">Lesson Title</h1>
+        
+        <div id="lesson-content" style="color:var(--text); line-height: 1.7; font-size: 0.95rem; margin-bottom: 30px;">
+          <!-- Lesson content -->
+        </div>
+
+        <div id="lesson-code-block" style="display: none; background: var(--ink); border: 1px solid var(--border); border-radius: 8px; padding: 16px; position: relative; margin-bottom: 30px; font-family: monospace; font-size: 0.85rem; overflow-x: auto;">
+          <button style="position: absolute; top: 12px; right: 12px; background: var(--card); border: 1px solid var(--border); color: var(--text-dim); padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; cursor: pointer;" onclick="copyCodeText()">Copy</button>
+          <pre><code id="lesson-code-content" style="color: #4A9EFF;"></code></pre>
+        </div>
+
+        <div id="lesson-diagram-block" style="display: none; background: rgba(245,166,35,0.02); border: 1px dashed rgba(245,166,35,0.3); border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center;">
+          <div style="font-size: 0.75rem; color: var(--gold); text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">📊 Visual Specification</div>
+          <div id="lesson-diagram-content" style="font-size: 0.85rem; color: var(--text-dim); font-style: italic;"></div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; margin-top: 40px;">
+          <button class="btn-ghost" style="padding: 10px 20px; font-size: 0.8rem;" id="btn-prev-lesson" onclick="navigateLesson(-1)">← Previous</button>
+          <button class="btn-primary" style="padding: 10px 24px; font-size: 0.82rem; box-shadow: none;" id="btn-next-lesson" onclick="markCompleteAndNext()">Mark Complete & Next →</button>
+        </div>
+      </div>
+
+      <!-- 3. Quiz Pane -->
+      <div class="lms-pane" id="pane-quiz">
+        <h1 style="font-family:'Syne',sans-serif; margin-bottom: 12px; color:var(--white);">Module Quiz</h1>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 24px;">Complete this quiz to test your understanding of this week's materials.</p>
+        
+        <div id="quiz-questions-list">
+          <!-- Quiz questions -->
+        </div>
+        
+        <button class="btn-primary" id="btn-submit-quiz" onclick="submitQuiz()">Submit Answers →</button>
+        <div id="quiz-results" style="display: none; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 24px; text-align: center;">
+          <h2 style="font-family:'Syne',sans-serif; color: var(--white); margin-bottom: 8px;">Your Score: <span id="quiz-score-val" style="color: var(--gold);">0/0</span></h2>
+          <p id="quiz-status-msg" style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 16px;"></p>
+          <button class="btn-ghost" style="padding: 8px 18px; font-size: 0.8rem;" onclick="resetQuiz()">Retry Quiz</button>
+        </div>
+      </div>
+
+      <!-- 4. Assignment Pane -->
+      <div class="lms-pane" id="pane-assignment">
+        <h1 style="font-family:'Syne',sans-serif; margin-bottom: 12px; color:var(--white);">Weekly Assignment</h1>
+        <h3 id="assignment-title" style="color: var(--white); margin-bottom: 12px;">Assignment Title</h3>
+        <p id="assignment-prompt" style="color: var(--text-dim); line-height: 1.7; margin-bottom: 24px; font-size: 0.9rem;"></p>
+        
+        <div id="assignment-downloads" style="margin-bottom: 24px;">
+          <h4 style="color: var(--white); margin-bottom: 8px; font-size: 0.85rem;">Download Attachments:</h4>
+          <div id="assignment-downloads-list" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Downloads -->
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label>Your Answer / Solution Notes:</label>
+          <textarea id="assignment-solution" rows="6" style="width:100%; background:var(--ink); border:1px solid var(--border); border-radius:8px; padding:12px; color:var(--white); font-family:inherit; font-size:0.88rem; outline:none; resize:vertical; transition:border-color 0.2s;" placeholder="Describe your solution steps, calculations or write your formulas here..."></textarea>
+        </div>
+
+        <button class="btn-primary" id="btn-submit-assignment" onclick="submitAssignment()">Submit Assignment →</button>
+        <div id="assignment-status" style="display: none; background: rgba(46,204,113,0.06); border: 1px solid rgba(46,204,113,0.3); border-radius: 8px; padding: 14px 18px; font-size: 0.85rem; color: var(--green); margin-top: 16px;">
+          ✓ Assignment Submitted! Instructors will review it shortly.
+        </div>
+      </div>
+
+      <!-- 5. Certificate Pane -->
+      <div class="lms-pane" id="pane-certificate" style="text-align: center;">
+        <h1 style="font-family:'Syne',sans-serif; margin-bottom: 12px; color:var(--white);">Course Completed! 🎉</h1>
+        <p style="color: var(--text-dim); margin-bottom: 30px; line-height: 1.7;">Congratulations! You have completed all lessons, quizzes, and assignments for this course. You can now claim your verified certificate of completion.</p>
+        
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; margin-bottom: 30px; display: inline-block; max-width: 500px;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">📜</div>
+          <h3 style="color: var(--white); font-family:'Syne',sans-serif; margin-bottom: 8px;">Verified Certificate</h3>
+          <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 24px;">Includes unique verification ID linked to your profile.</p>
+          <button class="btn-primary" onclick="generateCertificate()">View Certificate →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Certificate Modal -->
+<div class="cert-overlay" id="cert-overlay">
+  <div class="cert-card">
+    <div class="cert-close" onclick="closeCertificate()">✕</div>
+    <div style="font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 700;">Certificate of Completion</div>
+    <div class="cert-title">Skill<span>Rise</span> Academy</div>
+    <div class="cert-sub">This is proudly presented to</div>
+    <div class="cert-recipient" id="cert-user-name">User Name</div>
+    <div class="cert-sub">for successfully completing the online course</div>
+    <div class="cert-course" id="cert-course-name">Course Name</div>
+    <div class="cert-sub" style="font-size: 0.85rem; font-style: italic;">with all lessons, assessments, and capstone requirements fulfilled.</div>
+    <div class="cert-footer">
+      <div>
+        <div style="font-size: 0.72rem; color: var(--text-dim); margin-bottom: 4px;">Date</div>
+        <div style="font-size: 0.85rem; font-weight: 600;" id="cert-date">June 30, 2026</div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif; color: var(--gold); font-size: 0.95rem; font-weight: 800; font-style: italic; margin-bottom: 4px;">SkillRise Team</div>
+        <div class="cert-sig">Authorized Signature</div>
+      </div>
+    </div>
+    <div style="font-size: 0.6rem; color: var(--muted); margin-top: 40px;" id="cert-verification-id">Verification ID: SR-XXXX-XXXX</div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>SkillRise</strong> — Learn. Work. Earn. &nbsp;|&nbsp; Built for the generation that has degrees but not jobs. &nbsp;|&nbsp; © 2026</p>
+  <p style="margin-top:8px;font-size:0.72rem;">All content is protected and watermarked. Unauthorized sharing violates our Terms of Service.</p>
+</footer>
+
+<script>
+let currentUser = null;
+let selectedPlan = 'yearly';
+const usersDB = { 'demo@skillrise.in': { password:'demo123', name:'Demo User', plan:'pro' } };
+const FREE_COURSES = 3;
+
+const courses = [
+  {cat:'ai',icon:'🤖',catLabel:'AI & Automation',name:'AI Prompt Engineering Masterclass',outcome:'Freelancer / AI Trainer',level:'beg',duration:'4 weeks',hot:true,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'ai',icon:'🧠',catLabel:'AI & Automation',name:'Build AI Agents with LangChain & Python',outcome:'AI Developer',level:'int',duration:'8 weeks',hot:true,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'ai',icon:'⚙️',catLabel:'AI & Automation',name:'Workflow Automation: Make.com / Zapier / n8n',outcome:'Automation Consultant',level:'beg',duration:'4 weeks',hot:false,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'ai',icon:'💬',catLabel:'AI & Automation',name:'ChatGPT & AI Tools for Business',outcome:'AI-powered Virtual Assistant',level:'beg',duration:'3 weeks',hot:false,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'ai',icon:'🚀',catLabel:'AI & Automation',name:'No-Code AI App Building',outcome:'SaaS Founder / Freelancer',level:'beg',duration:'5 weeks',hot:true,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'data',icon:'📊',catLabel:'Data & Analytics',name:'Data Analytics with Excel & Power BI',outcome:'Data Analyst',level:'beg',duration:'6 weeks',hot:true,accent:'#4A9EFF',accentBg:'rgba(74,158,255,0.1)'},
+  {cat:'data',icon:'🐍',catLabel:'Data & Analytics',name:'Python for Data Science',outcome:'Data Scientist',level:'int',duration:'10 weeks',hot:true,accent:'#4A9EFF',accentBg:'rgba(74,158,255,0.1)'},
+  {cat:'data',icon:'🗄️',catLabel:'Data & Analytics',name:'SQL for Business Intelligence',outcome:'BI Analyst',level:'beg',duration:'4 weeks',hot:false,accent:'#4A9EFF',accentBg:'rgba(74,158,255,0.1)'},
+  {cat:'data',icon:'📈',catLabel:'Data & Analytics',name:'Data Visualization & Dashboarding',outcome:'Freelance Analyst',level:'int',duration:'5 weeks',hot:false,accent:'#4A9EFF',accentBg:'rgba(74,158,255,0.1)'},
+  {cat:'data',icon:'💡',catLabel:'Data & Analytics',name:'Business Analytics & Decision Making',outcome:'Business Analyst',level:'beg',duration:'6 weeks',hot:false,accent:'#4A9EFF',accentBg:'rgba(74,158,255,0.1)'},
+  {cat:'cloud',icon:'☁️',catLabel:'Cloud & DevOps',name:'AWS Cloud Practitioner (Zero to Certified)',outcome:'Cloud Support Engineer',level:'beg',duration:'6 weeks',hot:true,accent:'#2ECC71',accentBg:'rgba(46,204,113,0.1)'},
+  {cat:'cloud',icon:'🔷',catLabel:'Cloud & DevOps',name:'Microsoft Azure Fundamentals (AZ-900)',outcome:'Azure Administrator',level:'beg',duration:'5 weeks',hot:true,accent:'#2ECC71',accentBg:'rgba(46,204,113,0.1)'},
+  {cat:'cloud',icon:'🌐',catLabel:'Cloud & DevOps',name:'Google Cloud Associate Engineer',outcome:'Cloud Engineer',level:'int',duration:'8 weeks',hot:false,accent:'#2ECC71',accentBg:'rgba(46,204,113,0.1)'},
+  {cat:'cloud',icon:'🐳',catLabel:'Cloud & DevOps',name:'DevOps with Docker & Kubernetes',outcome:'DevOps Engineer',level:'adv',duration:'10 weeks',hot:true,accent:'#2ECC71',accentBg:'rgba(46,204,113,0.1)'},
+  {cat:'cloud',icon:'🐧',catLabel:'Cloud & DevOps',name:'Linux for Beginners (Server Admin)',outcome:'System Administrator',level:'beg',duration:'4 weeks',hot:false,accent:'#2ECC71',accentBg:'rgba(46,204,113,0.1)'},
+  {cat:'cyber',icon:'🔐',catLabel:'Cybersecurity',name:'Cybersecurity Fundamentals (CompTIA Security+)',outcome:'Security Analyst',level:'beg',duration:'8 weeks',hot:true,accent:'#FF5A5F',accentBg:'rgba(255,90,95,0.1)'},
+  {cat:'cyber',icon:'🕵️',catLabel:'Cybersecurity',name:'Ethical Hacking & Penetration Testing',outcome:'Penetration Tester',level:'int',duration:'12 weeks',hot:true,accent:'#FF5A5F',accentBg:'rgba(255,90,95,0.1)'},
+  {cat:'cyber',icon:'🛡️',catLabel:'Cybersecurity',name:'Network Security & Firewall Management',outcome:'Network Engineer',level:'int',duration:'8 weeks',hot:false,accent:'#FF5A5F',accentBg:'rgba(255,90,95,0.1)'},
+  {cat:'cyber',icon:'🔍',catLabel:'Cybersecurity',name:'Digital Forensics & Incident Response',outcome:'SOC Analyst',level:'adv',duration:'10 weeks',hot:false,accent:'#FF5A5F',accentBg:'rgba(255,90,95,0.1)'},
+  {cat:'cyber',icon:'🌩️',catLabel:'Cybersecurity',name:'Cloud Security Essentials',outcome:'Cloud Security Engineer',level:'int',duration:'6 weeks',hot:true,accent:'#FF5A5F',accentBg:'rgba(255,90,95,0.1)'},
+  {cat:'dev',icon:'💻',catLabel:'Web & App Dev',name:'Full-Stack Web Development (HTML/CSS/JS/React)',outcome:'Web Developer',level:'beg',duration:'16 weeks',hot:true,accent:'#9B59B6',accentBg:'rgba(155,89,182,0.1)'},
+  {cat:'dev',icon:'▲',catLabel:'Web & App Dev',name:'Next.js & Node.js for Modern Web Apps',outcome:'Full-Stack Developer',level:'int',duration:'10 weeks',hot:true,accent:'#9B59B6',accentBg:'rgba(155,89,182,0.1)'},
+  {cat:'dev',icon:'📱',catLabel:'Web & App Dev',name:'Mobile App Development (Flutter / React Native)',outcome:'App Developer',level:'int',duration:'12 weeks',hot:false,accent:'#9B59B6',accentBg:'rgba(155,89,182,0.1)'},
+  {cat:'dev',icon:'🌐',catLabel:'Web & App Dev',name:'WordPress Website Building & Freelancing',outcome:'Freelance Web Designer',level:'beg',duration:'4 weeks',hot:false,accent:'#9B59B6',accentBg:'rgba(155,89,182,0.1)'},
+  {cat:'dev',icon:'🎨',catLabel:'Web & App Dev',name:'UI/UX Design with Figma',outcome:'UI/UX Designer',level:'beg',duration:'6 weeks',hot:true,accent:'#9B59B6',accentBg:'rgba(155,89,182,0.1)'},
+  {cat:'marketing',icon:'📣',catLabel:'Digital Marketing',name:'Digital Marketing Complete Course (A–Z)',outcome:'Digital Marketer',level:'beg',duration:'8 weeks',hot:true,accent:'#E67E22',accentBg:'rgba(230,126,34,0.1)'},
+  {cat:'marketing',icon:'🔎',catLabel:'Digital Marketing',name:'SEO Mastery — Rank Websites on Google',outcome:'SEO Specialist',level:'beg',duration:'5 weeks',hot:true,accent:'#E67E22',accentBg:'rgba(230,126,34,0.1)'},
+  {cat:'marketing',icon:'💰',catLabel:'Digital Marketing',name:'Meta & Google Paid Ads (Performance Marketing)',outcome:'Ads Manager',level:'int',duration:'6 weeks',hot:true,accent:'#E67E22',accentBg:'rgba(230,126,34,0.1)'},
+  {cat:'marketing',icon:'📧',catLabel:'Digital Marketing',name:'Email Marketing & List Building',outcome:'Email Marketer',level:'beg',duration:'3 weeks',hot:false,accent:'#E67E22',accentBg:'rgba(230,126,34,0.1)'},
+  {cat:'marketing',icon:'📱',catLabel:'Digital Marketing',name:'Social Media Management & Content Strategy',outcome:'Social Media Manager',level:'beg',duration:'4 weeks',hot:false,accent:'#E67E22',accentBg:'rgba(230,126,34,0.1)'},
+  {cat:'marketing',icon:'🎬',catLabel:'Digital Marketing',name:'Short-Form Video Marketing (Reels / TikTok / Shorts)',outcome:'Content Creator',level:'beg',duration:'3 weeks',hot:true,accent:'#E67E22',accentBg:'rgba(230,126,34,0.1)'},
+  {cat:'finance',icon:'📒',catLabel:'Finance & Accounting',name:'Accounting & Bookkeeping for Beginners',outcome:'Freelance Bookkeeper',level:'beg',duration:'5 weeks',hot:false,accent:'#1ABC9C',accentBg:'rgba(26,188,156,0.1)'},
+  {cat:'finance',icon:'🧾',catLabel:'Finance & Accounting',name:'Tally Prime / QuickBooks Mastery',outcome:'Accounts Executive',level:'beg',duration:'4 weeks',hot:false,accent:'#1ABC9C',accentBg:'rgba(26,188,156,0.1)'},
+  {cat:'finance',icon:'📉',catLabel:'Finance & Accounting',name:'Financial Modelling & Valuation (Excel)',outcome:'Financial Analyst',level:'int',duration:'8 weeks',hot:true,accent:'#1ABC9C',accentBg:'rgba(26,188,156,0.1)'},
+  {cat:'finance',icon:'🇮🇳',catLabel:'Finance & Accounting',name:'GST, Taxation & Compliance',outcome:'Tax Consultant',level:'beg',duration:'4 weeks',hot:false,accent:'#1ABC9C',accentBg:'rgba(26,188,156,0.1)'},
+  {cat:'finance',icon:'📈',catLabel:'Finance & Accounting',name:'Stock Market & Trading Fundamentals',outcome:'Trader / Investor',level:'beg',duration:'5 weeks',hot:true,accent:'#1ABC9C',accentBg:'rgba(26,188,156,0.1)'},
+  {cat:'creative',icon:'🖌️',catLabel:'Creative & Design',name:'Graphic Design with Canva & Adobe',outcome:'Freelance Designer',level:'beg',duration:'5 weeks',hot:false,accent:'#E91E8C',accentBg:'rgba(233,30,140,0.1)'},
+  {cat:'creative',icon:'🎬',catLabel:'Creative & Design',name:'Video Editing (Premiere Pro / CapCut)',outcome:'Video Editor',level:'beg',duration:'4 weeks',hot:true,accent:'#E91E8C',accentBg:'rgba(233,30,140,0.1)'},
+  {cat:'creative',icon:'✨',catLabel:'Creative & Design',name:'Motion Graphics & After Effects',outcome:'Motion Designer',level:'int',duration:'8 weeks',hot:false,accent:'#E91E8C',accentBg:'rgba(233,30,140,0.1)'},
+  {cat:'creative',icon:'📷',catLabel:'Creative & Design',name:'Photography & Photo Editing for Freelancers',outcome:'Photographer',level:'beg',duration:'4 weeks',hot:false,accent:'#E91E8C',accentBg:'rgba(233,30,140,0.1)'},
+  {cat:'creative',icon:'🧊',catLabel:'Creative & Design',name:'3D Design & Product Visualization (Blender)',outcome:'3D Artist',level:'adv',duration:'12 weeks',hot:true,accent:'#E91E8C',accentBg:'rgba(233,30,140,0.1)'},
+  {cat:'freelance',icon:'💼',catLabel:'Freelancing & Remote',name:'Freelancing on Upwork & Fiverr',outcome:'Freelancer (₹1L+/month)',level:'beg',duration:'3 weeks',hot:true,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'freelance',icon:'🖥️',catLabel:'Freelancing & Remote',name:'Virtual Assistant Business Setup',outcome:'Remote VA',level:'beg',duration:'3 weeks',hot:false,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'freelance',icon:'✍️',catLabel:'Freelancing & Remote',name:'Copywriting & Content Writing for the Web',outcome:'Freelance Writer',level:'beg',duration:'4 weeks',hot:false,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'freelance',icon:'🔗',catLabel:'Freelancing & Remote',name:'LinkedIn Profile & Personal Branding Mastery',outcome:'Job Seeker / Consultant',level:'beg',duration:'2 weeks',hot:true,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'freelance',icon:'📋',catLabel:'Freelancing & Remote',name:'Project Management (PMP / Agile / Scrum)',outcome:'Project Manager',level:'int',duration:'8 weeks',hot:false,accent:'#F5A623',accentBg:'rgba(245,166,35,0.1)'},
+  {cat:'health',icon:'🏥',catLabel:'Healthcare IT',name:'Medical Coding & Billing (ICD-10)',outcome:'Medical Coder',level:'beg',duration:'8 weeks',hot:false,accent:'#3498DB',accentBg:'rgba(52,152,219,0.1)'},
+  {cat:'health',icon:'💊',catLabel:'Healthcare IT',name:'Health Data & EHR Management',outcome:'Health IT Specialist',level:'int',duration:'8 weeks',hot:true,accent:'#3498DB',accentBg:'rgba(52,152,219,0.1)'},
+  {cat:'health',icon:'🏢',catLabel:'Healthcare IT',name:'SAP Basics for Business (ERP)',outcome:'SAP Consultant',level:'beg',duration:'6 weeks',hot:true,accent:'#3498DB',accentBg:'rgba(52,152,219,0.1)'},
+  {cat:'health',icon:'🚢',catLabel:'Healthcare IT',name:'Supply Chain & Logistics Management',outcome:'Logistics Analyst',level:'beg',duration:'6 weeks',hot:false,accent:'#3498DB',accentBg:'rgba(52,152,219,0.1)'}
+];
+
+function buildWatermark(name, email){
+  const overlay = document.getElementById('watermark-overlay');
+  overlay.innerHTML = '';
+  const text = name + ' • ' + email + ' • SkillRise Member';
+  const cols = Math.ceil(window.innerWidth / 320) + 2;
+  const rows = Math.ceil(window.innerHeight / 180) + 4;
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const el = document.createElement('div');
+      el.className='wm-text';
+      el.textContent = text;
+      el.style.left = (c*300 - 100)+'px';
+      el.style.top = (r*160 - 80)+'px';
+      overlay.appendChild(el);
+    }
+  }
+  overlay.classList.add('active');
+}
+function removeWatermark(){ document.getElementById('watermark-overlay').classList.remove('active'); }
+
+function showModal(id){
+  document.querySelectorAll('.modal-backdrop').forEach(m=>m.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function hideModal(id){ document.getElementById(id).classList.add('hidden'); }
+document.querySelectorAll('.modal-backdrop').forEach(backdrop=>{
+  backdrop.addEventListener('click', e => { if(e.target===backdrop) backdrop.classList.add('hidden'); });
+});
+
+function doLogin(){
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  const user = usersDB[email];
+  if(!user || user.password !== pass){ errEl.classList.add('show'); return; }
+  errEl.classList.remove('show');
+  loginUser(email, user.name, user.plan);
+  hideModal('login-modal');
+}
+
+function doSignup(){
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim().toLowerCase();
+  const pass = document.getElementById('signup-pass').value;
+  const errEl = document.getElementById('signup-error');
+  if(!name || !email || pass.length < 6 || !email.includes('@')){
+    errEl.textContent = 'Please fill all fields. Password must be at least 6 characters.';
+    errEl.classList.add('show'); return;
+  }
+  if(usersDB[email]){
+    errEl.textContent = 'An account with this email already exists. Please sign in.';
+    errEl.classList.add('show'); return;
+  }
+  usersDB[email] = { password:pass, name, plan:'free' };
+  errEl.classList.remove('show');
+  loginUser(email, name, 'free');
+  hideModal('signup-modal');
+}
+
+function loginUser(email, name, plan){
+  currentUser = { email, name, plan };
+  updateNavForUser();
+  buildWatermark(name, email);
+  renderCourses('all');
+  updateDashboard();
+  document.getElementById('hero-section').style.display = 'none';
+  document.getElementById('member-dashboard').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function doLogout(){
+  currentUser = null;
+  removeWatermark();
+  document.getElementById('nav-user').classList.remove('active');
+  document.getElementById('nav-auth-btns').classList.remove('hidden');
+  document.getElementById('hero-section').style.display = '';
+  document.getElementById('member-dashboard').classList.remove('active');
+  renderCourses('all');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateNavForUser(){
+  document.getElementById('nav-auth-btns').classList.add('hidden');
+  const navUser = document.getElementById('nav-user');
+  navUser.classList.add('active');
+  document.getElementById('nav-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+  document.getElementById('nav-username').textContent = currentUser.name.split(' ')[0];
+  const badge = document.getElementById('nav-plan-badge');
+  if(currentUser.plan === 'pro'){ badge.textContent='PRO'; badge.className='badge-plan badge-pro'; }
+  else { badge.textContent='FREE'; badge.className='badge-plan badge-free'; }
+}
+
+function updateDashboard(){
+  document.getElementById('dash-name').textContent = currentUser.name.split(' ')[0];
+  const isPro = currentUser.plan === 'pro';
+  document.getElementById('dash-meta').textContent = isPro
+    ? 'Pro Member — All 50+ courses unlocked 🎉'
+    : 'Free Plan — 3 preview courses available';
+  document.getElementById('dash-courses-count').textContent = isPro ? '50+' : '3';
+  document.getElementById('upgrade-banner').classList.toggle('hidden', isPro);
+}
+
+function selectPlan(plan){
+  selectedPlan = plan;
+  document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('plan-'+plan).classList.add('selected');
+  const payBtn = document.getElementById('pay-btn');
+  payBtn.textContent = plan==='yearly' ? 'Activate Pro — ₹999/year →' : 'Activate Pro — ₹99/month →';
+}
+
+function doUpgrade(){
+  if(!currentUser){ hideModal('paywall-modal'); showModal('signup-modal'); return; }
+  currentUser.plan = 'pro';
+  usersDB[currentUser.email].plan = 'pro';
+  hideModal('paywall-modal');
+  updateNavForUser();
+  updateDashboard();
+  renderCourses('all');
+  buildWatermark(currentUser.name, currentUser.email);
+  showUpgradeSuccess();
+}
+
+function showUpgradeSuccess(){
+  const banner = document.createElement('div');
+  banner.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#2ECC71;color:#000;padding:14px 28px;border-radius:10px;font-weight:700;font-size:0.9rem;z-index:1000;box-shadow:0 4px 24px rgba(46,204,113,0.4);';
+  banner.textContent='🎉 Pro Activated! All 50+ courses unlocked.';
+  document.body.appendChild(banner);
+  setTimeout(()=>banner.remove(), 4000);
+}
+
+/* Original handleCourseClick replaced by LMS Engine */
+
+let currentCourseData = null;
+let currentCourseIndex = null;
+let activeItemType = 'overview'; // 'overview', 'lesson', 'quiz', 'assignment', 'certificate'
+let activeWeekIdx = 0;
+let activeLessonIdx = 0;
+let currentSelectedOptions = {}; // tracks options selected by users in quizzes
+
+// Progress states mapping: { courseId: { completed: [lessonIds], quizScores: { weekIdx: score }, assignments: { weekIdx: solution } } }
+let studentProgress = {};
+if (localStorage.getItem('skillrise_student_progress')) {
+  studentProgress = JSON.parse(localStorage.getItem('skillrise_student_progress'));
+}
+
+function saveStudentProgress() {
+  localStorage.setItem('skillrise_student_progress', JSON.stringify(studentProgress));
+  updateDashboard();
+  updateProgressUI();
+}
+
+function updateProgressUI() {
+  if (!currentCourseData) return;
+  const courseId = currentCourseData.course_id;
+  const courseProg = studentProgress[courseId] || { completed: [], quizScores: {}, assignments: {} };
+  
+  // Calculate total items (lessons + quizzes + assignments)
+  let totalItems = 0;
+  let completedItems = 0;
+  
+  currentCourseData.modules.forEach(mod => {
+    mod.lessons.forEach(les => {
+      totalItems++;
+      if (courseProg.completed.includes(les.lesson_id)) completedItems++;
+      
+      // Update checkmarks in sidebar
+      const itemEl = document.getElementById('item-' + les.lesson_id);
+      if (itemEl) {
+        itemEl.classList.toggle('completed', courseProg.completed.includes(les.lesson_id));
+      }
+    });
+    
+    // Quiz & Assignment items
+    totalItems += 2; 
+    const qKey = 'q-' + mod.week;
+    const aKey = 'a-' + mod.week;
+    
+    if (courseProg.quizScores[mod.week] !== undefined) completedItems++;
+    if (courseProg.assignments[mod.week] !== undefined) completedItems++;
+    
+    const quizEl = document.getElementById('item-' + qKey);
+    if (quizEl) quizEl.classList.toggle('completed', courseProg.quizScores[mod.week] !== undefined);
+    
+    const assignEl = document.getElementById('item-' + aKey);
+    if (assignEl) assignEl.classList.toggle('completed', courseProg.assignments[mod.week] !== undefined);
+  });
+  
+  const percentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+  document.getElementById('lms-progress-bar').style.width = percentage + '%';
+  document.getElementById('lms-progress-text').textContent = percentage + '%';
+  
+  // Show certificate option if 100% complete
+  const certSidebarItem = document.getElementById('item-certificate');
+  if (certSidebarItem) {
+    certSidebarItem.style.display = percentage === 100 ? 'flex' : 'none';
+  }
+}
+
+async function handleCourseClick(index) {
+  if(!currentUser){ showModal('login-modal'); return; }
+  if(currentUser.plan !== 'pro' && index >= FREE_COURSES){ showModal('paywall-modal'); return; }
+  
+  const paddedIndex = (index + 1).toString().padStart(2, '0');
+  const courseDataPath = 'courses/course-' + paddedIndex + '/course-data.json';
+  
+  try {
+    const res = await fetch(courseDataPath);
+    if (!res.ok) {
+      throw new Error('Course content file not found. Loading skeleton data.');
+    }
+    const data = await res.json();
+    currentCourseData = data;
+    currentCourseIndex = index;
+    openLMS(data);
+  } catch (err) {
+    console.error(err);
+    // Load fallback mock data for testing empty skeleton courses
+    const c = courses[index];
+    currentCourseData = {
+      course_id: index + 1,
+      title: c.name,
+      overview: "Standard learning curriculum overview content in Hinglish for: " + c.name,
+      objectives: ["Core concepts review", "Hands-on implementation", "Portfolio enhancement"],
+      roadmap: { phases: [{ title: "Phase 1: Fundamentals", desc: "Introduction" }, { title: "Phase 2: Mastery", desc: "Advanced usage" }] },
+      modules: [
+        {
+          week: 1,
+          title: "Introduction & Setup",
+          lessons: [
+            {
+              lesson_id: "w1-l1",
+              title: "Getting Started with " + c.name,
+              content: "### Learning Objectives\n\nIn this lesson, we will cover setup workflows and tool chains. Please complete matching assignments.",
+              code: "// Sample code\nconsole.log('Welcome to " + c.name + "');",
+              diagram: "Input Data Flow -> Processing Step -> Output Schema Validation",
+              quiz: [
+                {
+                  question: "Standard baseline evaluation methodology matches:",
+                  options: ["Exact parameter validations", "Static defaults", "Generic formats", "Query logs"],
+                  answer: 0,
+                  explanation: "Validation parameters verify input schemas match constraints."
+                }
+              ],
+              assignment: {
+                title: "Basics Setup Lab",
+                prompt: "Complete baseline environment alignment setup as described in class guidelines."
+              },
+              downloads: []
+            }
+          ]
+        }
+      ]
+    };
+    currentCourseIndex = index;
+    openLMS(currentCourseData);
+  }
+}
+
+function openLMS(data) {
+  document.getElementById('lms-course-title').textContent = data.title;
+  buildLMSSidebar(data);
+  loadOverviewPane(data);
+  document.getElementById('lms-container').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  updateProgressUI();
+}
+
+function closeLMS() {
+  document.getElementById('lms-container').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function buildLMSSidebar(data) {
+  const sidebar = document.getElementById('lms-sidebar');
+  let html = `<div class="lms-sidebar-item active" id="item-overview" onclick="showPane('overview')">📋 Course Overview</div>`;
+  
+  data.modules.forEach((mod, wIdx) => {
+    html += `<div class="lms-week-group">
+      <div class="lms-week-title">Week ${mod.week}: ${mod.title}</div>`;
+    
+    mod.lessons.forEach((les, lIdx) => {
+      html += `<div class="lms-sidebar-item" id="item-${les.lesson_id}" onclick="loadLesson(${wIdx}, ${lIdx})">📖 ${les.title}</div>`;
+    });
+    
+    html += `<div class="lms-sidebar-item" id="item-q-${mod.week}" onclick="loadQuiz(${wIdx})">❓ Week ${mod.week} Quiz</div>`;
+    html += `<div class="lms-sidebar-item" id="item-a-${mod.week}" onclick="loadAssignment(${wIdx})">📝 Week ${mod.week} Assignment</div>`;
+    html += `</div>`;
+  });
+  
+  html += `<div class="lms-sidebar-item" id="item-certificate" style="display: none; background: var(--gold-glow); color: var(--gold); font-weight: 700; margin-top: auto;" onclick="showPane('certificate')">📜 Claim Certificate</div>`;
+  
+  sidebar.innerHTML = html;
+}
+
+function showPane(paneId) {
+  document.querySelectorAll('.lms-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-' + paneId).classList.add('active');
+  
+  document.querySelectorAll('.lms-sidebar-item').forEach(item => item.classList.remove('active'));
+  const activeSidebarItem = document.getElementById('item-' + paneId);
+  if (activeSidebarItem) activeSidebarItem.classList.add('active');
+}
+
+function loadOverviewPane(data) {
+  document.getElementById('overview-title').textContent = data.title;
+  document.getElementById('overview-desc').textContent = data.overview;
+  
+  const objList = document.getElementById('overview-objectives');
+  objList.innerHTML = data.objectives.map(obj => `<li>✓ ${obj}</li>`).join('');
+  
+  const roadmapEl = document.getElementById('overview-roadmap');
+  roadmapEl.innerHTML = data.roadmap.phases.map(p => `<div style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px;">
+    <div style="font-weight: 700; color: var(--gold); margin-bottom: 4px;">${p.title}</div>
+    <div style="font-size: 0.82rem; color: var(--text-dim);">${p.desc}</div>
+  </div>`).join('');
+  
+  showPane('overview');
+}
+
+function startCourse() {
+  if (currentCourseData.modules.length > 0) {
+    loadLesson(0, 0);
+  }
+}
+
+function loadLesson(wIdx, lIdx) {
+  activeWeekIdx = wIdx;
+  activeLessonIdx = lIdx;
+  activeItemType = 'lesson';
+  
+  const les = currentCourseData.modules[wIdx].lessons[lIdx];
+  document.getElementById('lesson-week-tag').textContent = `Week ${wIdx + 1} / Lesson ${lIdx + 1}`;
+  document.getElementById('lesson-title').textContent = les.title;
+  
+  // Render content (simple markdown conversion for headers and lists)
+  let cleanContent = les.content
+    .replace(/### (.*)/g, '<h3 style="color:var(--white); margin: 20px 0 10px;">$1</h3>')
+    .replace(/## (.*)/g, '<h2 style="color:var(--white); margin: 24px 0 12px;">$1</h2>')
+    .replace(/\n/g, '<br/>')
+    .replace(/(\*\*|__)(.*?)\1/g, '<strong>$2</strong>');
+  
+  document.getElementById('lesson-content').innerHTML = cleanContent;
+  
+  // Show code block if available
+  const codeBlock = document.getElementById('lesson-code-block');
+  if (les.code) {
+    document.getElementById('lesson-code-content').textContent = les.code;
+    codeBlock.style.display = 'block';
+  } else {
+    codeBlock.style.display = 'none';
+  }
+  
+  // Show diagram block if available
+  const diagramBlock = document.getElementById('lesson-diagram-block');
+  if (les.diagram) {
+    document.getElementById('lesson-diagram-content').textContent = les.diagram;
+    diagramBlock.style.display = 'block';
+  } else {
+    diagramBlock.style.display = 'none';
+  }
+  
+  // Set sidebar selection
+  document.querySelectorAll('.lms-sidebar-item').forEach(item => item.classList.remove('active'));
+  const activeItem = document.getElementById('item-' + les.lesson_id);
+  if (activeItem) activeItem.classList.add('active');
+  
+  // Show Pane
+  document.querySelectorAll('.lms-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-lesson').classList.add('active');
+}
+
+function copyCodeText() {
+  const code = document.getElementById('lesson-code-content').textContent;
+  navigator.clipboard.writeText(code);
+  
+  const alertEl = document.createElement('div');
+  alertEl.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--black); padding:8px 16px; border-radius:6px; font-size:0.8rem; font-weight:700; z-index:1100;';
+  alertEl.textContent = 'Code Copied!';
+  document.body.appendChild(alertEl);
+  setTimeout(() => alertEl.remove(), 1500);
+}
+
+function navigateLesson(dir) {
+  let lessonsList = [];
+  currentCourseData.modules.forEach((mod, wIdx) => {
+    mod.lessons.forEach((les, lIdx) => {
+      lessonsList.push({ type: 'lesson', weekIdx: wIdx, lessonIdx: lIdx });
+    });
+    lessonsList.push({ type: 'quiz', weekIdx: wIdx });
+    lessonsList.push({ type: 'assignment', weekIdx: wIdx });
+  });
+  
+  // Find current index
+  let curIdx = -1;
+  for (let i = 0; i < lessonsList.length; i++) {
+    const item = lessonsList[i];
+    if (activeItemType === 'lesson' && item.type === 'lesson' && item.weekIdx === activeWeekIdx && item.lessonIdx === activeLessonIdx) {
+      curIdx = i;
+      break;
+    }
+    if (activeItemType === 'quiz' && item.type === 'quiz' && item.weekIdx === activeWeekIdx) {
+      curIdx = i;
+      break;
+    }
+    if (activeItemType === 'assignment' && item.type === 'assignment' && item.weekIdx === activeWeekIdx) {
+      curIdx = i;
+      break;
+    }
+  }
+  
+  const nextIdx = curIdx + dir;
+  if (nextIdx >= 0 && nextIdx < lessonsList.length) {
+    const target = lessonsList[nextIdx];
+    if (target.type === 'lesson') loadLesson(target.weekIdx, target.lessonIdx);
+    else if (target.type === 'quiz') loadQuiz(target.weekIdx);
+    else if (target.type === 'assignment') loadAssignment(target.weekIdx);
+  }
+}
+
+function markCompleteAndNext() {
+  if (!currentCourseData) return;
+  const courseId = currentCourseData.course_id;
+  
+  if (!studentProgress[courseId]) {
+    studentProgress[courseId] = { completed: [], quizScores: {}, assignments: {} };
+  }
+  
+  if (activeItemType === 'lesson') {
+    const les = currentCourseData.modules[activeWeekIdx].lessons[activeLessonIdx];
+    if (!studentProgress[courseId].completed.includes(les.lesson_id)) {
+      studentProgress[courseId].completed.push(les.lesson_id);
+    }
+  }
+  
+  saveStudentProgress();
+  navigateLesson(1);
+}
+
+function loadQuiz(wIdx) {
+  activeWeekIdx = wIdx;
+  activeItemType = 'quiz';
+  currentSelectedOptions = {};
+  
+  const mod = currentCourseData.modules[wIdx];
+  
+  // Find first lesson to get matching quizzes if not direct
+  let quizData = [];
+  mod.lessons.forEach(l => {
+    if (l.quiz) quizData = quizData.concat(l.quiz);
+  });
+  
+  const quizListEl = document.getElementById('quiz-questions-list');
+  document.getElementById('btn-submit-quiz').style.display = 'block';
+  document.getElementById('quiz-results').style.display = 'none';
+  
+  if (quizData.length === 0) {
+    quizListEl.innerHTML = '<div style="color:var(--text-dim)">No quiz available for this week.</div>';
+    document.getElementById('btn-submit-quiz').style.display = 'none';
+  } else {
+    quizListEl.innerHTML = quizData.map((q, qIdx) => `
+      <div class="quiz-question-card">
+        <div style="font-weight:700; color:var(--white); margin-bottom:12px;">Qdots Q${qIdx+1}. ${q.question}</div>
+        <div class="quiz-options">
+          ${q.options.map((opt, oIdx) => `
+            <div class="quiz-option" id="q-${qIdx}-o-${oIdx}" onclick="selectQuizOption(${qIdx}, ${oIdx})">${opt}</div>
+          `).join('')}
+        </div>
+        <div id="q-${qIdx}-exp" class="quiz-explanation" style="display:none;">
+          <strong>Explanation:</strong> ${q.explanation}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  // Sidebar select
+  document.querySelectorAll('.lms-sidebar-item').forEach(item => item.classList.remove('active'));
+  const activeItem = document.getElementById('item-q-' + mod.week);
+  if (activeItem) activeItem.classList.add('active');
+  
+  showPane('quiz');
+}
+
+function selectQuizOption(qIdx, oIdx) {
+  // Deselect others
+  const optionsContainer = document.querySelector(`#q-${qIdx}-o-${oIdx}`).parentElement;
+  optionsContainer.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected'));
+  
+  document.getElementById(`q-${qIdx}-o-${oIdx}`).classList.add('selected');
+  currentSelectedOptions[qIdx] = oIdx;
+}
+
+function submitQuiz() {
+  const mod = currentCourseData.modules[activeWeekIdx];
+  let quizData = [];
+  mod.lessons.forEach(l => {
+    if (l.quiz) quizData = quizData.concat(l.quiz);
+  });
+  
+  let score = 0;
+  let total = quizData.length;
+  
+  quizData.forEach((q, qIdx) => {
+    const selected = currentSelectedOptions[qIdx];
+    const explanationEl = document.getElementById(`q-${qIdx}-exp`);
+    if (explanationEl) explanationEl.style.display = 'block';
+    
+    // Highlight options
+    const optionsContainer = document.getElementById(`q-${qIdx}-o-0`).parentElement;
+    optionsContainer.querySelectorAll('.quiz-option').forEach((el, oIdx) => {
+      el.onclick = null; // disable clicks
+      if (oIdx === q.answer) {
+        el.classList.add('correct');
+      } else if (oIdx === selected) {
+        el.classList.add('incorrect');
+      }
+    });
+    
+    if (selected === q.answer) score++;
+  });
+  
+  document.getElementById('btn-submit-quiz').style.display = 'none';
+  const resultsEl = document.getElementById('quiz-results');
+  resultsEl.style.display = 'block';
+  document.getElementById('quiz-score-val').textContent = `${score}/${total}`;
+  
+  const statusMsg = document.getElementById('quiz-status-msg');
+  if (score === total) statusMsg.textContent = 'Awesome! Perfect score!';
+  else if (score >= total / 2) statusMsg.textContent = 'Good job! Keep learning to improve.';
+  else statusMsg.textContent = 'Retry to improve your score.';
+  
+  // Save Quiz Completion
+  const courseId = currentCourseData.course_id;
+  if (!studentProgress[courseId]) {
+    studentProgress[courseId] = { completed: [], quizScores: {}, assignments: {} };
+  }
+  studentProgress[courseId].quizScores[mod.week] = score;
+  saveStudentProgress();
+}
+
+function resetQuiz() {
+  loadQuiz(activeWeekIdx);
+}
+
+function loadAssignment(wIdx) {
+  activeWeekIdx = wIdx;
+  activeItemType = 'assignment';
+  
+  const mod = currentCourseData.modules[wIdx];
+  
+  // Find first lesson assignment
+  let assign = null;
+  mod.lessons.forEach(l => {
+    if (l.assignment) assign = l.assignment;
+  });
+  
+  document.getElementById('pane-assignment').querySelector('h1').textContent = `Week ${mod.week} Assignment`;
+  document.getElementById('assignment-title').textContent = assign ? assign.title : "No Assignment";
+  document.getElementById('assignment-prompt').textContent = assign ? assign.prompt : "No assignment prompt available for this week.";
+  
+  // Load downloads
+  let downloads = [];
+  mod.lessons.forEach(l => {
+    if (l.downloads) downloads = downloads.concat(l.downloads);
+  });
+  
+  const downloadEl = document.getElementById('assignment-downloads-list');
+  if (downloads.length === 0) {
+    document.getElementById('assignment-downloads').style.display = 'none';
+  } else {
+    document.getElementById('assignment-downloads').style.display = 'block';
+    downloadEl.innerHTML = downloads.map(d => `
+      <a href="${d.url}" download class="btn-ghost" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; padding: 6px 12px; margin-top: 4px; text-decoration: none; width: max-content;">
+        📥 ${d.name}
+      </a>
+    `).join('');
+  }
+  
+  // Submission text area value load
+  const courseId = currentCourseData.course_id;
+  const courseProg = studentProgress[courseId] || { completed: [], quizScores: {}, assignments: {} };
+  const prevSolution = courseProg.assignments[mod.week];
+  
+  document.getElementById('assignment-solution').value = prevSolution || '';
+  document.getElementById('assignment-status').style.display = prevSolution ? 'block' : 'none';
+  
+  // Sidebar select
+  document.querySelectorAll('.lms-sidebar-item').forEach(item => item.classList.remove('active'));
+  const activeItem = document.getElementById('item-a-' + mod.week);
+  if (activeItem) activeItem.classList.add('active');
+  
+  showPane('assignment');
+}
+
+function submitAssignment() {
+  const solutionText = document.getElementById('assignment-solution').value.trim();
+  if (!solutionText) {
+    alert('Please enter your solution notes before submitting.');
+    return;
+  }
+  
+  const courseId = currentCourseData.course_id;
+  const mod = currentCourseData.modules[activeWeekIdx];
+  
+  if (!studentProgress[courseId]) {
+    studentProgress[courseId] = { completed: [], quizScores: {}, assignments: {} };
+  }
+  
+  studentProgress[courseId].assignments[mod.week] = solutionText;
+  saveStudentProgress();
+  
+  document.getElementById('assignment-status').style.display = 'block';
+  
+  const alertEl = document.createElement('div');
+  alertEl.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#2ECC71; color:#000; padding:8px 16px; border-radius:6px; font-size:0.8rem; font-weight:700; z-index:1100;';
+  alertEl.textContent = 'Assignment Submitted Successfully!';
+  document.body.appendChild(alertEl);
+  setTimeout(() => alertEl.remove(), 2000);
+}
+
+function generateCertificate() {
+  const userName = currentUser ? currentUser.name : "Student Name";
+  const courseName = currentCourseData.title;
+  
+  document.getElementById('cert-user-name').textContent = userName;
+  document.getElementById('cert-course-name').textContent = courseName;
+  
+  // Random verification ID
+  const randomId = 'SR-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(1000 + Math.random() * 9000);
+  document.getElementById('cert-verification-id').textContent = 'Verification ID: ' + randomId;
+  
+  // Format Date
+  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('cert-date').textContent = dateStr;
+  
+  document.getElementById('cert-overlay').classList.add('active');
+}
+
+function closeCertificate() {
+  document.getElementById('cert-overlay').classList.remove('active');
+}
+
+// Intercept original login success dashboard stats mapping
+function updateDashboard() {
+  document.getElementById('dash-name').textContent = currentUser.name.split(' ')[0];
+  const isPro = currentUser.plan === 'pro';
+  document.getElementById('dash-meta').textContent = isPro
+    ? 'Pro Member — All 50+ courses unlocked 🎉'
+    : 'Free Plan — 3 preview courses available';
+  document.getElementById('dash-courses-count').textContent = isPro ? '50+' : '3';
+  document.getElementById('upgrade-banner').classList.toggle('hidden', isPro);
+  
+  // Calculate completed courses from studentProgress
+  let completedCount = 0;
+  let certCount = 0;
+  
+  Object.keys(studentProgress).forEach(courseId => {
+    // Check if progress is 100%
+    const prog = studentProgress[courseId];
+    const totalCompleted = (prog.completed || []).length + Object.keys(prog.quizScores || {}).length + Object.keys(prog.assignments || {}).length;
+    if (totalCompleted > 0) {
+      completedCount++;
+    }
+    
+    // Certificate count (if 100%)
+    if (prog.completed.length > 0 && Object.keys(prog.quizScores).length > 0 && Object.keys(prog.assignments).length > 0) {
+      certCount++;
+    }
+  });
+  
+  document.querySelector('.dashboard-stats').innerHTML = `
+    <div class="dash-stat"><div class="dash-stat-num" id="dash-courses-count">${isPro ? '50+' : '3'}</div><div class="dash-stat-label">Courses Available</div></div>
+    <div class="dash-stat"><div class="dash-stat-num">${completedCount}</div><div class="dash-stat-label">In Progress</div></div>
+    <div class="dash-stat"><div class="dash-stat-num" id="dash-cert-count">${certCount}</div><div class="dash-stat-label">Certificates</div></div>
+  `;
+}
+
+function original_handleCourseClick(index){
+  if(!currentUser){ showModal('login-modal'); return; }
+  if(currentUser.plan !== 'pro' && index >= FREE_COURSES){ showModal('paywall-modal'); return; }
+  const c = courses[index];
+  const toast = document.createElement('div');
+  toast.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--gold);color:var(--white);padding:14px 24px;border-radius:10px;font-size:0.85rem;z-index:1000;box-shadow:0 4px 24px rgba(0,0,0,0.5);text-align:center;min-width:280px;';
+  toast.innerHTML = '<div style="color:var(--gold);font-weight:700;margin-bottom:4px;">📖 Opening Course</div><div style="color:var(--text-dim)">'+c.name+'</div>';
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(),3000);
+}
+
+function renderCourses(filter){
+  const grid = document.getElementById('courseGrid');
+  const levelMap = {beg:'Beginner',int:'Intermediate',adv:'Advanced'};
+  const isPro = currentUser && currentUser.plan === 'pro';
+  const isLoggedIn = !!currentUser;
+  const filtered = courses.map((c,i)=>Object.assign({},c,{globalIndex:i})).filter(c => filter==='all' || c.cat===filter);
+
+  grid.innerHTML = filtered.map(c=>{
+    const globalIdx = c.globalIndex;
+    const isFree = globalIdx < FREE_COURSES;
+    const isLocked = isLoggedIn && !isPro && !isFree;
+    const needsLogin = !isLoggedIn && !isFree;
+    let lockHTML = '';
+    if(isLocked){
+      lockHTML = '<div class="lock-overlay"><div class="lock-icon">🔒</div><div class="lock-label">Pro course<br/>₹99/mo or ₹999/yr</div><button class="lock-btn" onclick="event.stopPropagation();showModal(\'paywall-modal\')">Unlock Pro →</button></div>';
+    } else if(needsLogin){
+      lockHTML = '<div class="lock-overlay"><div class="lock-icon">🔑</div><div class="lock-label">Sign in to access<br/>this course</div><button class="lock-btn" onclick="event.stopPropagation();showModal(\'login-modal\')">Sign In →</button></div>';
+    }
+    return '<div class="course-card '+(isLocked||needsLogin?'locked':'')+'" style="--accent:'+c.accent+';--accent-bg:'+c.accentBg+'" onclick="handleCourseClick('+globalIdx+')">'+
+      lockHTML+
+      '<div class="course-icon" style="background:'+c.accentBg+'">'+c.icon+'</div>'+
+      '<div class="course-cat">'+c.catLabel+'</div>'+
+      '<div class="course-name">'+c.name+'</div>'+
+      '<div class="course-outcome">'+c.outcome+'</div>'+
+      '<div class="course-meta">'+
+        '<span class="badge-level badge-'+c.level+'">'+levelMap[c.level]+'</span>'+
+        (c.hot?'<span class="badge-hot">🔥 Hot</span>':'')+
+        (isFree&&!isPro?'<span class="badge-free-tag">FREE</span>':'')+
+        '<span class="badge-dur">'+c.duration+'</span>'+
+      '</div></div>';
+  }).join('');
+}
+
+function filterCourses(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCourses(cat);
+}
+
+document.addEventListener('contextmenu', e => { if(currentUser){ e.preventDefault(); } });
+document.addEventListener('keydown', e => {
+  if(!currentUser) return;
+  if(e.ctrlKey && ['p','s','u'].includes(e.key.toLowerCase())){
+    e.preventDefault();
+    showCopyAlert();
+  }
+});
+function showCopyAlert(){
+  const t = document.createElement('div');
+  t.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#FF5A5F;color:#fff;padding:12px 24px;border-radius:10px;font-weight:700;font-size:0.82rem;z-index:9999;';
+  t.textContent='⚠️ Content is protected. All access is logged and watermarked.';
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+renderCourses('all');
+</script>
+</body>
+</html>

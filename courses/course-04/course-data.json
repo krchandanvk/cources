@@ -1,0 +1,142 @@
+{
+  "course_id": 4,
+  "title": "ChatGPT & AI Tools for Business",
+  "category": "ai",
+  "level": "beg",
+  "duration": "3 weeks",
+  "outcome": "AI-powered Virtual Assistant",
+  "overview": "ChatGPT, Claude, aur Gemini jaise AI tools ko operational daily business tasks, email writing, meeting minutes extraction aur virtual assistance services me apply karna seekhein.",
+  "objectives": [
+    "AI assistants (ChatGPT, Claude, Gemini) ke capabilities analyze compare karna.",
+    "Business copy content, outlines generation, documents summary scripts prompt design write rules.",
+    "Data sorting, formatting calculations standard spreadsheets rules automation apply setup.",
+    "Freelancing AI Virtual Assistant profiles and services client pitch portfolios creation."
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "title": "Phase 1: Tool Selection & Prompting (Week 1)",
+        "desc": "Understanding Claude vs GPT strength, prompt parameters setup."
+      },
+      {
+        "title": "Phase 2: Daily Operations Automation (Week 2)",
+        "desc": "Auto-emails drafts, transcript summaries, excel formula helper guides."
+      },
+      {
+        "title": "Phase 3: VA Portfolio Launch (Week 3)",
+        "desc": "Freelance virtual assistant business setup, onboarding SOP, pricing packages."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "week": 1,
+      "title": "AI Tool Landscape & Prompt Basics",
+      "lessons": [
+        {
+          "lesson_id": "w1-l1",
+          "title": "Comparing ChatGPT, Claude, and Gemini for Business Operations",
+          "content": "AI tools selection target business requirements ke andhar execute mapping tasks me accuracy output increase standards check control logic frameworks.\n\n### Primary Strengths:\n- **Claude (Anthropic)**: Excellent document reading, long contextual understanding, clean professional copy.\n- **ChatGPT (OpenAI)**: Advanced data analysis tool built-in, fast responses, logical code queries writing.\n- **Gemini (Google)**: Multi-modal integrations (Workspace docs link setup), real-time search queries execution.",
+          "code": "SYSTEM: You are a business assistant.\nUSER: Compare these two files and list differences in a markdown table.",
+          "diagram": "Business Task -> Tool evaluations (Data vs Copy vs Search) -> Optimal AI Node selection",
+          "quiz": [
+            {
+              "question": "Deep textual analysis and writing clean document edits tasks me premium standard model target recommended:",
+              "options": [
+                "Claude series models (Anthropic) for professional tone outputs",
+                "Basic Google search results queries",
+                "Factual data calculator engines",
+                "Static text lookup script scripts"
+              ],
+              "answer": 0,
+              "explanation": "Claude models contain optimized logic frameworks for complex language styling and document writing."
+            }
+          ],
+          "assignment": {
+            "title": "Build a comparative analysis matrix task",
+            "prompt": "Evaluate three models responses to a client contract review request and list findings."
+          },
+          "downloads": [
+            { "name": "AI Models features comparative matrix sheet", "url": "/shared/checklists/ai_matrix.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Practical Operations & Data Organization",
+      "lessons": [
+        {
+          "lesson_id": "w2-l1",
+          "title": "Automating transcripts, formatting tabular data and drafts",
+          "content": "Business operations daily records summaries pipelines setups logic calculations formatting templates.\n\n### Core Tasks:\n- **Meeting Summaries**: Extract action points from zoom audio logs text transcriptions.\n- **Data Formatting**: Parse unaligned names, addresses, and phone logs into standard tables.",
+          "code": "PROMPT: Extract key action items with owner names and deadlines from this transcript: [transcript]",
+          "diagram": "Raw Video Transcript -> AI Text parser -> Action list (Owner, Deadline, Task status)",
+          "quiz": [
+            {
+              "question": "Transcripts meeting summaries formatting prompt parameters should strictly require extraction of:",
+              "options": [
+                "Action items, deadlines, and owners names keys",
+                "Complete list of every spoken word logs",
+                "Audio file sample metadata properties",
+                "Video frames resolution check variables"
+              ],
+              "answer": 0,
+              "explanation": "Action items focus on operational follow-ups that drive business activities."
+            }
+          ],
+          "assignment": {
+            "title": "Draft a monthly client summary report template task",
+            "prompt": "Process a dirty transcripts log file and format a neat project status outline report."
+          },
+          "downloads": [
+            { "name": "Meeting minutes template cards pdf", "url": "/shared/checklists/meeting_minutes_template.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Freelance Positioning & Pricing",
+      "lessons": [
+        {
+          "lesson_id": "w3-l1",
+          "title": "Packaging AI Virtual Assistant services and contract onboarding setup",
+          "content": "AI VA service catalogs build guidelines, package creation methods, pricing strategies calculations models setups.",
+          "code": "VA_SERVICE_PACKAGE = \"\"\"\n- Inbox Cleanups & Draft Auto-reply setups\n- Weekly Meeting Summaries: 3 hours total\n- Monthly Sales Performance analytics cards\n\"\"\"",
+          "diagram": "Freelance Profile setup -> Service Package options -> Inbound Client call -> Onboarding workflow",
+          "quiz": [
+            {
+              "question": "Freelancing AI Virtual Assistant profiles client onboarding checklists must first clarify:",
+              "options": [
+                "Data access authorization permissions and systems credentials security rules",
+                "Model subscription pricing calculations",
+                "API token query rate limits configurations",
+                "Active local folder directory paths specifications"
+              ],
+              "answer": 0,
+              "explanation": "Security credentials and client data access protocols must be signed and verified beforehand to protect privacy."
+            }
+          ],
+          "assignment": {
+            "title": "Draft a virtual assistant services proposal pack task",
+            "prompt": "Write a complete proposal targeting an executive looking to outsource customer support management."
+          },
+          "downloads": [
+            { "name": "VA Onboarding checklist framework doc", "url": "/shared/checklists/va_onboarding.docx" }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "Complete AI-Powered Executive Assistant Operational Playbook Suite",
+    "description": "Construct a complete playbook documentation framework detailing prompt sequences for daily calendar management, email filters routing, data collection sheets, and presentation slides draft."
+  },
+  "interview_questions": [
+    {
+      "question": "How do you handle client data privacy concerns when using public AI models like Claude or ChatGPT?",
+      "answer": "Sign clean non-disclosure agreements, disable chat history data storage settings in public endpoints to prevent training use, and scrub personal identifiable information (PII) like names or card info before pasting queries."
+    }
+  ]
+}

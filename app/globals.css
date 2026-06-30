@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+:root {
+  --black: #0A0A0A;
+  --ink: #111317;
+  --card: #16191F;
+  --border: #232730;
+  --muted: #3A3F4B;
+  --text-dim: #7A8195;
+  --text: #C8CCDA;
+  --white: #F0F2F8;
+  --gold: #F5A623;
+  --gold-dim: #C07A10;
+  --gold-glow: rgba(245,166,35,0.15);
+  --green: #2ECC71;
+  --blue: #4A9EFF;
+  --red: #FF5A5F;
+  --purple: #9B59B6;
+}
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom visual utilities mapping SkillRise original CSS */
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+.nav-logo span {
+  color: var(--gold);
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--black);
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(245, 166, 35, 0.3);
+}
+.btn-primary:hover {
+  background: #FFB94A;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  border-color: var(--muted);
+  background: var(--card);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:hover {
+  border-color: var(--muted);
+  background: var(--card);
+}
+
+.btn-full {
+  width: 100%;
+  background: var(--gold);
+  color: var(--black);
+  padding: 13px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+.btn-full:hover {
+  background: #FFB94A;
+}
+
+.badge-plan {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.badge-free {
+  background: rgba(122, 129, 149, 0.15);
+  color: var(--text-dim);
+}
+.badge-pro {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--gold);
+}
+
+.badge-level {
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.badge-beg {
+  background: rgba(46, 204, 113, 0.12);
+  color: var(--green);
+}
+.badge-int {
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--blue);
+}
+.badge-adv {
+  background: rgba(155, 89, 182, 0.12);
+  color: var(--purple);
+}
+.badge-hot {
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(255, 90, 95, 0.12);
+  color: var(--red);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Watermark styles */
+#watermark-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+  display: block;
+}
+.wm-text {
+  position: absolute;
+  color: rgba(245, 166, 35, 0.07);
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+  transform: rotate(-35deg);
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: 2px;
+}
+
+/* Markdown content styling */
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  color: var(--white);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+.markdown-content h2 {
+  font-size: 1.3rem;
+}
+.markdown-content h3 {
+  font-size: 1.15rem;
+}
+.markdown-content p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+.markdown-content ul,
+.markdown-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  list-style-position: outside;
+}
+.markdown-content ul {
+  list-style-type: disc;
+}
+.markdown-content ol {
+  list-style-type: decimal;
+}
+.markdown-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+.markdown-content strong {
+  color: var(--white);
+  font-weight: 600;
+}
+.markdown-content blockquote {
+  border-left: 3px solid var(--gold);
+  background: var(--ink);
+  padding: 10px 15px;
+  margin-bottom: 1.2rem;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+}

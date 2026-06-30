@@ -1,0 +1,305 @@
+{
+  "total_courses": 50,
+  "courses": [
+    {
+      "course_id": 1,
+      "title": "AI Prompt Engineering Masterclass",
+      "status": "completed",
+      "last_updated": "2026-06-30T14:07:41.332Z"
+    },
+    {
+      "course_id": 2,
+      "title": "Build AI Agents with LangChain & Python",
+      "status": "completed",
+      "last_updated": "2026-06-30T14:07:41.333Z"
+    },
+    {
+      "course_id": 3,
+      "title": "Workflow Automation: Make.com / Zapier / n8n",
+      "status": "completed",
+      "last_updated": "2026-06-30T14:07:41.333Z"
+    },
+    {
+      "course_id": 4,
+      "title": "ChatGPT & AI Tools for Business",
+      "status": "completed",
+      "last_updated": "2026-06-30T14:07:41.333Z"
+    },
+    {
+      "course_id": 5,
+      "title": "No-Code AI App Building",
+      "status": "completed",
+      "last_updated": "2026-06-30T14:07:41.333Z"
+    },
+    {
+      "course_id": 6,
+      "title": "Data Analytics with Excel & Power BI",
+      "status": "completed",
+      "last_updated": "2026-06-30T14:07:41.333Z"
+    },
+    {
+      "course_id": 7,
+      "title": "Python for Data Science (Beginner to Job-Ready)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 8,
+      "title": "SQL for Business Intelligence",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 9,
+      "title": "Data Visualization & Dashboarding",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 10,
+      "title": "Business Analytics & Decision Making",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 11,
+      "title": "AWS Cloud Practitioner (Zero to Certified)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 12,
+      "title": "Microsoft Azure Fundamentals (AZ-900)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 13,
+      "title": "Google Cloud Associate Engineer",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 14,
+      "title": "DevOps with Docker & Kubernetes",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 15,
+      "title": "Linux for Beginners (Server Administration)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 16,
+      "title": "Cybersecurity Fundamentals (CompTIA Security+)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 17,
+      "title": "Ethical Hacking & Penetration Testing",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 18,
+      "title": "Network Security & Firewall Management",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 19,
+      "title": "Digital Forensics & Incident Response",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 20,
+      "title": "Cloud Security Essentials",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 21,
+      "title": "Full-Stack Web Development (HTML/CSS/JS/React)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 22,
+      "title": "Next.js & Node.js for Modern Web Apps",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 23,
+      "title": "Mobile App Development (Flutter / React Native)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 24,
+      "title": "WordPress Website Building & Freelancing",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 25,
+      "title": "UI/UX Design with Figma",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 26,
+      "title": "Digital Marketing Complete Course (A–Z)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 27,
+      "title": "SEO Mastery — Rank Websites on Google",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 28,
+      "title": "Meta & Google Paid Ads (Performance Marketing)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 29,
+      "title": "Email Marketing & List Building",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 30,
+      "title": "Social Media Management & Content Strategy",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 31,
+      "title": "Short-Form Video Marketing (Reels / TikTok / YouTube Shorts)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 32,
+      "title": "Accounting & Bookkeeping for Beginners",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 33,
+      "title": "Tally Prime / QuickBooks Mastery",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 34,
+      "title": "Financial Modelling & Valuation (Excel)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 35,
+      "title": "GST, Taxation & Compliance (India-Focused)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 36,
+      "title": "Stock Market & Trading Fundamentals",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 37,
+      "title": "Graphic Design with Canva & Adobe (Beginner)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 38,
+      "title": "Video Editing (Premiere Pro / CapCut)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 39,
+      "title": "Motion Graphics & After Effects",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 40,
+      "title": "Photography & Photo Editing for Freelancers",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 41,
+      "title": "3D Design & Product Visualization (Blender)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 42,
+      "title": "Freelancing on Upwork & Fiverr (Zero to ₹1,00,000+/month)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 43,
+      "title": "Virtual Assistant Business Setup",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 44,
+      "title": "Copywriting & Content Writing for the Web",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 45,
+      "title": "LinkedIn Profile & Personal Branding Mastery",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 46,
+      "title": "Project Management (PMP / Agile / Scrum)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 47,
+      "title": "Medical Coding & Billing (ICD-10)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 48,
+      "title": "Health Data & EHR Management",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 49,
+      "title": "SAP Basics for Business (ERP)",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    },
+    {
+      "course_id": 50,
+      "title": "Supply Chain & Logistics Management",
+      "status": "not_started",
+      "last_updated": "2026-06-30T14:03:37.003Z"
+    }
+  ]
+}

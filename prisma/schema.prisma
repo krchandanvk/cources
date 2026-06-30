@@ -1,0 +1,307 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  CAREER_PLUS
+  ANNUAL_PRO
+  LIFETIME
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  REVIEWED
+  REJECTED
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      Role     @default(STUDENT)
+  plan      Plan     @default(FREE)        // Separate from Role — role = platform access, plan = subscription tier
+  profile   Profile?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+  @@index([plan])
+}
+
+model Profile {
+  id           String                 @id @default(uuid())
+  userId       String                 @unique
+  user         User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  avatarUrl    String?
+  progress     Progress[]
+  bookmarks    Bookmark[]
+  notes        Note[]
+  attempts     QuizAttempt[]
+  submissions  AssignmentSubmission[]
+  certificates Certificate[]
+  orders       Order[]
+  reviews      Review[]
+  wishlists    Wishlist[]
+  achievements Achievement[]
+}
+
+model Course {
+  id            String         @id @default(uuid())
+  title         String
+  slug          String         @unique
+  overview      String
+  category      String
+  level         String
+  duration      String
+  outcome       String
+  price         Float
+  discountPrice Float?
+  modules       CourseModule[]
+  certificates  Certificate[]
+  reviews       Review[]
+  wishlists     Wishlist[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([category])
+  @@index([level])
+}
+
+model CourseModule {
+  id          String       @id @default(uuid())
+  courseId    String
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  order       Int
+  lessons     Lesson[]
+  quiz        Quiz?
+  assignment  Assignment?
+
+  @@index([courseId, order])
+}
+
+model Lesson {
+  id         String       @id @default(uuid())
+  moduleId   String
+  module     CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title      String
+  slug       String       @unique
+  contentMdx String
+  code       String?
+  diagram    String?
+  order      Int
+  progress   Progress[]
+  bookmarks  Bookmark[]
+  notes      Note[]
+  downloads  Download[]
+
+  @@index([moduleId])
+  @@index([order])
+}
+
+model Progress {
+  id          String   @id @default(uuid())
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([profileId, lessonId])  // Prevent duplicate completions
+  @@index([profileId])
+  @@index([lessonId])
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, lessonId])  // One bookmark per lesson per user
+  @@index([profileId])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  content   String
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+}
+
+model Quiz {
+  id           String        @id @default(uuid())
+  moduleId     String?       @unique
+  module       CourseModule? @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title        String
+  passingScore Int
+  questions    Question[]
+  attempts     QuizAttempt[]
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  question      String
+  options       String[]
+  correctAnswer Int
+  explanation   String
+
+  @@index([quizId])
+}
+
+model QuizAttempt {
+  id          String   @id @default(uuid())
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score       Int
+  passed      Boolean
+  completedAt DateTime @default(now())
+
+  @@index([profileId])
+  @@index([quizId])
+}
+
+model Assignment {
+  id           String                 @id @default(uuid())
+  moduleId     String?                @unique
+  module       CourseModule?          @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title        String
+  prompt       String
+  submissions  AssignmentSubmission[]
+}
+
+model AssignmentSubmission {
+  id           String           @id @default(uuid())
+  profileId    String
+  profile      Profile          @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  assignmentId String
+  assignment   Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  solutionText String
+  status       SubmissionStatus @default(SUBMITTED)
+  grade        String?
+  feedback     String?
+  submittedAt  DateTime         @default(now())
+
+  @@unique([profileId, assignmentId])  // One submission per assignment per student (upsert-friendly)
+  @@index([profileId])
+  @@index([assignmentId])
+}
+
+model Certificate {
+  id             String   @id @default(uuid())
+  profileId      String
+  profile        Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  courseId       String
+  course         Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  verificationId String   @unique
+  issuedAt       DateTime @default(now())
+  qrCodeUrl      String
+
+  @@unique([profileId, courseId])  // One certificate per course per student
+  @@index([profileId])
+}
+
+model Download {
+  id       String @id @default(uuid())
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  name     String
+  url      String
+
+  @@index([lessonId])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  profileId       String
+  profile         Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  amount          Float
+  currency        String      @default("INR")
+  planId          String?     // Stores which plan was purchased
+  status          OrderStatus @default(PENDING)
+  razorpayOrderId String      @unique
+  payment         Payment?
+  createdAt       DateTime    @default(now())
+
+  @@index([profileId])
+  @@index([status])
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  orderId       String   @unique
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  paymentMethod String
+  transactionId String   @unique   // Prevents duplicate payment records
+  createdAt     DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+
+  @@unique([profileId, courseId])  // One review per course per student
+  @@index([courseId])
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, courseId])  // One wishlist entry per course per student
+}
+
+model Achievement {
+  id          String   @id @default(uuid())
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  badgeUrl    String
+  unlockedAt  DateTime @default(now())
+
+  @@index([profileId])
+}

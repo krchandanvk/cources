@@ -1,0 +1,142 @@
+{
+  "course_id": 5,
+  "title": "No-Code AI App Building",
+  "category": "ai",
+  "level": "beg",
+  "duration": "5 weeks",
+  "outcome": "SaaS Founder / Freelancer",
+  "overview": "Bubble, Glide, and Softr jaise no-code platforms use karke complete web applications build karein aur OpenAI/Claude APIs connect karke smart AI SaaS products launch karein.",
+  "objectives": [
+    "No-code app platforms landscape aur matching databases layout design samajhna.",
+    "UI/UX layout and styling rules (Figma design mappings) build setup structure.",
+    "OpenAI API endpoints connect and parse dynamic data prompts inputs inside no-code structures.",
+    "Real SaaS app (Resume Builder/Content generator) deploy publish pricing systems configure."
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "title": "Phase 1: Database & UI (Weeks 1-2)",
+        "desc": "Glide / Bubble database configurations, container layouts, buttons event maps."
+      },
+      {
+        "title": "Phase 2: API integrations (Weeks 3-4)",
+        "desc": "OpenAI / Anthropic API links, webhook configurations, dynamic content generation."
+      },
+      {
+        "title": "Phase 3: Launch & Billing (Week 5)",
+        "desc": "Publishing, connecting Stripe / Lemon Squeezy billing, SaaS launch checklists."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "week": 1,
+      "title": "No-Code Landscape Overview",
+      "lessons": [
+        {
+          "lesson_id": "w1-l1",
+          "title": "Glide vs Bubble vs Softr platform selections",
+          "content": "No-code software engineering businesses ke liye fast prototype building aur SaaS applications deploy karne ka direct pipeline structure map karta hai.\n\n### Platform Matrices:\n- **Glide**: Best for data-driven internal portal layouts, spreadsheets databases, mobile-first designs.\n- **Softr**: Excellent for client portals, Airtable dynamic listings databases, simple responsive designs.\n- **Bubble**: Premium robust logical workflow editor, custom database design parameters support, heavy applications development.",
+          "code": "Glide Database Type: Google Sheets / Glide Tables (Direct sync)",
+          "diagram": "App Concept -> Complexity analysis -> Tool Selection (Glide vs Softr vs Bubble)",
+          "quiz": [
+            {
+              "question": "Data-heavy customer portals with Google Sheets sync tasks target recommended platform:",
+              "options": [
+                "Glide tables or Softr with Airtable connectors",
+                "Raw code node.js servers integrations",
+                "Static HTML templates files edit",
+                "Only local Excel spreadsheets directories setup"
+              ],
+              "answer": 0,
+              "explanation": "Glide and Softr natively abstract spreadsheet connections into clean mobile/web layouts."
+            }
+          ],
+          "assignment": {
+            "title": "Map a SaaS database schema layout check task",
+            "prompt": "Create an entity relationship layout linking customer profiles sheet with orders list table."
+          },
+          "downloads": [
+            { "name": "No-code databases design cheatsheet card", "url": "/shared/checklists/nocode_db.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Integrating AI APIs",
+      "lessons": [
+        {
+          "lesson_id": "w3-l1",
+          "title": "Configuring REST API calls and Webhook blocks inside Bubble / Glide workflows",
+          "content": "Integrating OpenAI completion endpoints to no-code applications inputs parameters mapping rules.\n\n### Configuration steps:\n- **API Connector**: Define authorization headers, endpoint URLs, request payload schema.\n- **Dynamic parameters**: Map text input box fields to prompt query variables.",
+          "code": "POST https://api.openai.com/v1/chat/completions\nAuthorization: Bearer {apiKey}\nPayload: {\"model\":\"gpt-4\",\"messages\":[{\"role\":\"user\",\"content\":\"Write summary for {InputText}\"}]}",
+          "diagram": "User click Generate button -> UI input data pass -> API Connector payload dispatch -> UI content reload",
+          "quiz": [
+            {
+              "question": "No-code apps API call payloads parsing rules parameters dynamic inputs are wrapped in:",
+              "options": [
+                "Curly braces variables labels (e.g. {Variable_Name})",
+                "Raw TXT file extensions logs",
+                "Local directory index numbers queries",
+                "Static default string configurations values"
+              ],
+              "answer": 0,
+              "explanation": "No-code platform API controllers use curly braces to map UI data dynamic inputs into outgoing request strings."
+            }
+          ],
+          "assignment": {
+            "title": "Setup an API lookup logic connector block task",
+            "prompt": "Create a dummy ChatGPT mock request connector flow in Glide/Bubble database."
+          },
+          "downloads": [
+            { "name": "Glide API connector settings checklists", "url": "/shared/checklists/glide_api.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "title": "Launch & Monetize",
+      "lessons": [
+        {
+          "lesson_id": "w5-l1",
+          "title": "Publishing app on domain, connecting Stripe payment gateways and landing page marketing",
+          "content": "SaaS monetization configurations, custom domain mapping rules, Stripe payment link setups, pricing layouts options.",
+          "code": "STRIPE_CHECKOUT_URL = \"https://checkout.stripe.com/pay/cs_live_...\"",
+          "diagram": "Landing page buy button -> Stripe checkout portal -> Webhook confirmation -> App user subscription active status update",
+          "quiz": [
+            {
+              "question": "Stripe pricing configurations require webhook endpoint setup inside app databases to: ",
+              "options": [
+                "Automatically activate subscription privileges when charge events succeed",
+                "Log user password values in text tables",
+                "Bypass custom domain validations rules settings",
+                "Format Excel formulas configurations lists"
+              ],
+              "answer": 0,
+              "explanation": "Stripe webhook triggers sync transaction success events directly with no-code user database tables status updates."
+            }
+          ],
+          "assignment": {
+            "title": "Draft a SaaS launch timeline calendar checklist task",
+            "prompt": "Document landing page sections layouts, DNS setup parameters, and product launch tasks scheduling checklist."
+          },
+          "downloads": [
+            { "name": "SaaS Launch checklist playbook doc", "url": "/shared/checklists/saas_launch.docx" }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "Complete AI SaaS Resume Optimizer & Job Tracker Portal",
+    "description": "Construct an end-to-end web app using Glide/Bubble where users upload resume text, specify job tags, generate AI optimization reports, and save application pipelines to personal dashboards."
+  },
+  "interview_questions": [
+    {
+      "question": "How do you secure API keys in Bubble or Glide without exposing them to the frontend user browser inspector?",
+      "answer": "In Bubble, utilize the standard API Connector by checking the 'Use as action' property and ensuring API private authorization headers are marked as 'Private' (only processed server-side). In Glide, use secure background proxy actions or tables settings that evaluate keys strictly server-side."
+    }
+  ]
+}

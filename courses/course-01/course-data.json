@@ -1,0 +1,175 @@
+{
+  "course_id": 1,
+  "title": "AI Prompt Engineering Masterclass",
+  "category": "ai",
+  "level": "beg",
+  "duration": "4 weeks",
+  "outcome": "Freelancer / AI Trainer",
+  "overview": "Prompt Engineering AI revolution ka sabse important skill hai. Is course mein hum ChatGPT, Claude aur Gemini jaise Large Language Models (LLMs) ko optimize aur instruction design karna seekhenge step-by-step.",
+  "objectives": [
+    "LLMs ke back-end process (next-token prediction) aur prompt logic ko samajhna.",
+    "Zero-shot, Few-shot aur Chain-of-Thought reasoning techniques implement karna.",
+    "Role-based prompts, outputs formatting and formatting validation rules structure karna.",
+    "Prompt libraries build karke online markets me service client sales design setup karna."
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "title": "Phase 1: Foundations (Week 1)",
+        "desc": "How LLMs work, prompt anatomy aur fundamental syntax rules."
+      },
+      {
+        "title": "Phase 2: Core Techniques (Week 2)",
+        "desc": "Advanced reasoning triggers, zero-shot vs few-shot frameworks."
+      },
+      {
+        "title": "Phase 3: Applied Systems & Monetization (Weeks 3-4)",
+        "desc": "Domain prompting, prompt libraries creation, and client onboarding pitch systems."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "week": 1,
+      "title": "Foundations & Prompt Anatomy",
+      "lessons": [
+        {
+          "lesson_id": "w1-l1",
+          "title": "How LLMs Work & Introduction to Prompting",
+          "content": "Large Language Models (LLMs) database calculations systems par target complete predictive models standard me calculate work karte hain. LLMs next-token prediction logic implement karte hain.\n\n### Key Concepts:\n- **Tokens**: Characters / syllables mapped inside numerical database dictionary.\n- **Next-Token Prediction**: Statistically computing matching tokens sequence.\n- **Temperature**: Randomness parameters control (0 = factual, 1 = creative).",
+          "code": "SYSTEM: You are a helpful assistant.\nUSER: Explain LLM tokens under 50 words.\nRESPONSE: ...",
+          "diagram": "User Input -> Text tokenization -> Neural network calculation -> Next-token output prediction",
+          "quiz": [
+            {
+              "question": "LLMs responses me randomness and creativity parameters adjust system rules control by:",
+              "options": [
+                "Temperature settings panel options",
+                "Max tokens count limit",
+                "System prompt rules logic",
+                "Input query size limits"
+              ],
+              "answer": 0,
+              "explanation": "Temperature controls output probability distribution randomness configurations."
+            }
+          ],
+          "assignment": {
+            "title": "Create a temperature setting analysis workflow checklist",
+            "prompt": "Document appropriate temperature settings configurations across 5 different real business use cases (like content creation vs legal query matching)."
+          },
+          "downloads": [
+            { "name": "LLM Tokens guide reference", "url": "/shared/checklists/llm_basics.pdf" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Core Techniques & Few-Shot Prompting",
+      "lessons": [
+        {
+          "lesson_id": "w2-l1",
+          "title": "Implementing Zero-shot vs Few-shot prompts",
+          "content": "Data processing and categorisation standard pipelines build patterns configurations.\n\n### Lookup Prompt strategies:\n- **Zero-shot**: Directly instruct model without giving any template format example records.\n- **Few-shot**: Supply 3-5 correct matching input/output samples data structure prior to prompt run.",
+          "code": "Review: 'Service is bad' -> Negative\nReview: 'Fast shipping!' -> Positive\nReview: 'Average setup' -> Neutral\nReview: 'Confusing flow' -> ",
+          "diagram": "System instructions -> Examples list array -> User Query target -> Parsed Classifications",
+          "quiz": [
+            {
+              "question": "Few-shot prompting target design pattern help models to:",
+              "options": [
+                "Understand complex structured schemas and styles formats natively",
+                "Execute API connection rules",
+                "Reduce token computation counts",
+                "Query search databases records"
+              ],
+              "answer": 0,
+              "explanation": "Examples teach formats patterns and output specifications natively to models."
+            }
+          ],
+          "assignment": {
+            "title": "Build a few-shot classifying prompt pipeline",
+            "prompt": "Create an automated customer support message classifier classifying bug reports, feature requests and general questions."
+          },
+          "downloads": [
+            { "name": "Few-shot examples dataset csv", "url": "/shared/checklists/few_shot_data.csv" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Applied Prompting & Template Libraries",
+      "lessons": [
+        {
+          "lesson_id": "w3-l1",
+          "title": "Building structured prompts for real-world business content production",
+          "content": "Large scale content pipelines require consistent prompt logic models. We will build reusable modular prompt templates with variables.",
+          "code": "PROMPT_TEMPLATE = \"\"\"\nSYSTEM: You are a copywriter.\nTASK: Generate product copy for {product_name}.\nBENEFITS: {benefits_list}.\nTONE: {tone_value}.\n\"\"\"",
+          "diagram": "Prompt Template variables definition -> App injection parsing -> Consolidated prompt payload",
+          "quiz": [
+            {
+              "question": "Template prompting variables are parsed to ensure:",
+              "options": [
+                "App automation integrations can format dynamic values rules",
+                "Model memory parameters cleanup",
+                "JSON outputs are formatted automatically",
+                "API rate limits checks are bypass rules"
+              ],
+              "answer": 0,
+              "explanation": "Variables enable software to programmatically fill values dynamic fields dynamically."
+            }
+          ],
+          "assignment": {
+            "title": "Generate business marketing campaign template cards",
+            "prompt": "Write a reusable template generator prompt for drafting personalized cold B2B outreach email arrays."
+          },
+          "downloads": [
+            { "name": "Marketing prompts list library", "url": "/shared/checklists/marketing_prompts.xlsx" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Monetization & Freelance Launch",
+      "lessons": [
+        {
+          "lesson_id": "w4-l1",
+          "title": "Packaging prompts libraries for digital sales and freelance consultings",
+          "content": "Prompt libraries creation, selling strategy systems package, pricing calculations rules and marketplaces showcase.",
+          "code": "FREELANCE_PACKAGE_DEAL = \"\"\"\n- Tested Prompts Collection: 15 items\n- Implementation SOP document: 1\n- Revision sessions: 2\n\"\"\"",
+          "diagram": "Tested Prompt assets creation -> Packaging (Checklist, SOP docs) -> Sales listing (Gumroad / Upwork client pitch)",
+          "quiz": [
+            {
+              "question": "Prompt engineering freelance pricing standard parameters should align targets on:",
+              "options": [
+                "Business value metrics and automation time saved estimations",
+                "Line counts inside text files prompts",
+                "API token query cost structures",
+                "Model version values list updates"
+              ],
+              "answer": 0,
+              "explanation": "Value-based pricing maps direct revenue time-saving to prompt quality integrations."
+            }
+          ],
+          "assignment": {
+            "title": "Build a client pitch deck template and prompt profile description",
+            "prompt": "Draft an Upwork proposal targeting a client who wants to build an automated email answering system."
+          },
+          "downloads": [
+            { "name": "Upwork pitch script checklists", "url": "/shared/checklists/upwork_pitch.docx" }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "Autonomous Customer Support AI Agent System Prompts Suite",
+    "description": "Design end-to-end prompt engineering suite including system directives, RAG context inject structure, error fallbacks, and evaluation metrics rubric."
+  },
+  "interview_questions": [
+    {
+      "question": "What is Chain of Thought prompting and when is it most effective?",
+      "answer": "Chain of Thought (CoT) prompting instructs the model to break down logical reasoning into step-by-step steps before writing the final output. It is most effective in math solving, logical puzzle checks, code logic analysis, and complex semantic classification schemas."
+    }
+  ]
+}
