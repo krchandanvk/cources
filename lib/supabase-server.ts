@@ -26,8 +26,8 @@ export const isSupabaseServerConfigured = !!(
  * Create a server-side Supabase client that reads cookies from the
  * incoming request. Safe to call inside Server Actions.
  */
-export function createSupabaseServerClient() {
-  const cookieStore = cookies();
+export async function createSupabaseServerClient() {
+  const cookieStore = await cookies();
 
   return createServerClient(SUPABASE_URL!, SUPABASE_ANON_KEY!, {
     cookies: {
@@ -71,7 +71,7 @@ export async function getServerSession(): Promise<
   }
 
   try {
-    const supabase = createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.auth.getUser();
 
     if (error || !data.user) {

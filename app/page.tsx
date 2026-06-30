@@ -139,7 +139,7 @@ export default function Home() {
       }
 
       if (data?.user) {
-        await syncDashboardData(email);
+        await syncDashboardData();
         setActiveModal(null);
       }
     }

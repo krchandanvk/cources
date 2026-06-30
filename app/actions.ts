@@ -303,8 +303,8 @@ export async function fetchStudentDashboardData() {
 
     const profile = user.profile;
 
-    const progressList = profile.progress.map((p) => {
-      const parts = p.lesson.slug.split("-");
+    const progressList = profile.progress.map(({ lesson }) => {
+      const parts = lesson.slug.split("-");
       return parts.slice(parts.length - 2).join("-");
     });
 
